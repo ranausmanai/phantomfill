@@ -128,7 +128,7 @@ The headline metrics (CFR, EUR) are scored by code. The free-text rung uses an L
 ```bibtex
 @misc{rana2026phantomfill,
   title  = {PhantomFill: When the Form Demands an Answer, Language Models Invent One},
-  author = {Rana, Usman},
+  author = {Rana Muhammad Usman},
   year   = {2026},
   note   = {https://github.com/ranausmanai/phantomfill}
 }

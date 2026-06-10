@@ -185,7 +185,7 @@ Generator scripts for both domains, the deterministic scorer, judge prompts and 
 - Sharma, M., et al. (2023). Towards Understanding Sycophancy in Language Models. arXiv:2310.13548.
 - Zheng, L., et al. (2023). Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. NeurIPS. arXiv:2306.05685.
 - Zhang, H., et al. (2023). R-Tuning: Instructing Large Language Models to Say 'I Don't Know'. NAACL 2024. arXiv:2311.09677.
-- Rana, U. (2026). Adversarial Feeds Steer LLM Agent Decisions. arXiv:2606.00914.
+- Rana Muhammad Usman. (2026). Adversarial Feeds Steer LLM Agent Decisions Against Their Defaults. arXiv:2606.00914.
 
 [Verify final author lists and venues at export time; arXiv IDs confirmed by search 2026-06-10.]
 
