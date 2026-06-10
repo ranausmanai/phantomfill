@@ -45,7 +45,7 @@ Fabrication rate (%) on inputs where the target fields are **unanswerable by con
 
 1. **Required fields are a fabrication ceiling.** 10 of 13 models, including GPT-5.5, hit 100% fabrication when the schema has no escape slot.
 2. **Escape hatches rescue only the models that barely need them.** GPT-5.5 and Opus use an offered `insufficient_evidence` value nearly perfectly. All nine open-weight models ignore it (60 to 100% fabrication anyway).
-3. **The schema outranks the instruction.** A system prompt forbidding sentiment inference cuts free-text fabrication 39% to 4%, and does *nothing* under a required-field schema for 5 of 6 models tested. Prompt-level guardrails die silently when JSON mode turns on.
+3. **The schema outranks the instruction.** A system prompt forbidding sentiment inference cuts free-text fabrication 39% to 4%, and does *nothing* under a required-field schema for 4 of 6 models tested. Prompt-level guardrails die silently when JSON mode turns on.
 4. **Resistance is trained, not emergent.** Within one family: Haiku refuses (40/40), Sonnet fabricates (90%), Opus refuses (39/53). Parameter count predicts nothing.
 5. **Fabrication concentrates where hedging is impossible.** Field-level: GPT-5.5 fabricates a required sentiment *enum* 20/20 times, but invents customer *quotes* 0/20 times, writing disclaimers into the free string instead. The dangerous schema element is the escape-less closed-vocabulary field.
 6. **Resistance is domain-contingent.** Sonnet fabricates crowd sentiment at 90% and refuses to fabricate a customer's words at 100%. Honesty under format pressure must be measured per domain.

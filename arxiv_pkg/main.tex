@@ -14,7 +14,7 @@
 
 \title{\textbf{\pf{}: When the Form Demands an Answer,\\Language Models Invent One}}
 \author{Usman Rana\\\small Independent Researcher\\\small \texttt{usmanashrafrana@gmail.com}}
-\date{June 2026 \quad (draft v0.3)}
+\date{June 2026}
 
 \begin{document}
 \maketitle
@@ -134,7 +134,7 @@ GPT-5.5 & 2 & 0 & 100 \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.72\linewidth]{../v2_fig1_matrix.png}
+\includegraphics[width=0.72\linewidth]{v2_fig1_matrix.png}
 \caption{The \pf{} matrix: fabrication rate at E3 by output-format rung, thirteen models. The black line separates open-weight from frontier models.}
 \label{fig:matrix}
 \end{figure}
@@ -147,7 +147,7 @@ GPT-5.5 is the cleanest demonstration because its rung 1 is nearly perfect (Figu
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{../v2_fig2_flip.png}
+\includegraphics[width=0.7\linewidth]{v2_fig2_flip.png}
 \caption{The schema flip. Same thread, same question; only the output format varies.}
 \label{fig:flip}
 \end{figure}
@@ -158,7 +158,7 @@ The obvious mitigation is to add an escape value to every field. It works for th
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.78\linewidth]{../v2_fig4_eur.png}
+\includegraphics[width=0.78\linewidth]{v2_fig4_eur.png}
 \caption{Escape Utilization Rate. Only GPT-5.5 and Opus reliably take an offered ``insufficient evidence'' option.}
 \label{fig:eur}
 \end{figure}
@@ -169,7 +169,7 @@ We prepend a system instruction that forbids inferring sentiment and demands an 
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.8\linewidth]{../v2_fig6_instruction.png}
+\includegraphics[width=0.8\linewidth]{v2_fig6_instruction.png}
 \caption{An explicit anti-fabrication instruction does not survive a required-field schema, except for phi-4 and Opus.}
 \label{fig:instruction}
 \end{figure}
@@ -186,7 +186,7 @@ The rule that falls out is simple and actionable (Figure~\ref{fig:fields}). Fabr
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{../v2_fig5_fields.png}
+\includegraphics[width=0.7\linewidth]{v2_fig5_fields.png}
 \caption{Field-level fabrication under the required schema (GPT-5.5, Domain~2).}
 \label{fig:fields}
 \end{figure}
@@ -203,7 +203,7 @@ Honesty has an operational price. Haiku and Opus achieve their low \cfr{} by vio
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.82\linewidth]{../v2_fig3_strategies.png}
+\includegraphics[width=0.82\linewidth]{v2_fig3_strategies.png}
 \caption{Three responses to an impossible required schema. Only Opus shows a meaningful honest-within-schema share, via structured refusal.}
 \label{fig:strategies}
 \end{figure}
