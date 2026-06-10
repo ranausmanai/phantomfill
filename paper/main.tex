@@ -134,7 +134,7 @@ GPT-5.5 & 2 & 0 & 100 \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.72\linewidth]{../pf_fig1_matrix.png}
+\includegraphics[width=0.72\linewidth]{../v2_fig1_matrix.png}
 \caption{The \pf{} matrix: fabrication rate at E3 by output-format rung, thirteen models. The black line separates open-weight from frontier models.}
 \label{fig:matrix}
 \end{figure}
@@ -147,14 +147,21 @@ GPT-5.5 is the cleanest demonstration because its rung 1 is nearly perfect (Figu
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{../pf_fig2_flip.png}
+\includegraphics[width=0.7\linewidth]{../v2_fig2_flip.png}
 \caption{The schema flip. Same thread, same question; only the output format varies.}
 \label{fig:flip}
 \end{figure}
 
 \subsection{Escape Hatches Are Not a Fix}
 
-The obvious mitigation is to add an escape value to every field. It works for the frontier: GPT-5.5 and Opus, given the option, take it nearly every time. It fails for every open model we test. gemma4 e4B, the most careful open model in free text at 65\%, fabricates 92\% of the time with the escape sitting in the schema. The capability to notice an escape and take it is itself unevenly distributed, and it is missing precisely in the small models that cost-sensitive deployments use. \eur{} is therefore not redundant with \cfr{}. It is the number that says whether the cheap fix will work for your model.
+The obvious mitigation is to add an escape value to every field. It works for the frontier: GPT-5.5 and Opus, given the option, take it nearly every time. It fails for every open model we test (Figure~\ref{fig:eur}). gemma4 e4B, the most careful open model in free text at 65\%, fabricates 92\% of the time with the escape sitting in the schema. The capability to notice an escape and take it is itself unevenly distributed, and it is missing precisely in the small models that cost-sensitive deployments use. \eur{} is therefore not redundant with \cfr{}. It is the number that says whether the cheap fix will work for your model.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.78\linewidth]{../v2_fig4_eur.png}
+\caption{Escape Utilization Rate. Only GPT-5.5 and Opus reliably take an offered ``insufficient evidence'' option.}
+\label{fig:eur}
+\end{figure}
 
 \subsection{The Schema Outranks the Instruction}
 
@@ -162,20 +169,27 @@ We prepend a system instruction that forbids inferring sentiment and demands an 
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.8\linewidth]{../pf_fig3_instruction.png}
+\includegraphics[width=0.8\linewidth]{../v2_fig6_instruction.png}
 \caption{An explicit anti-fabrication instruction does not survive a required-field schema, except for phi-4 and Opus.}
 \label{fig:instruction}
 \end{figure}
 
 \subsection{Resistance Is Trained, Not Emergent}
 
-The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly. Sonnet, larger and newer, fills them, fabricating in 90\% of trials, with or without the escape hatch present. Opus refuses 39 of 53 and fabricates in 15\%. Escape utilization separates them cleanly: Sonnet 10\%, Haiku 42\%, Opus 88\%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98\% before any schema appears, Haiku at 55\%, Opus at 0\%. Whatever produces coercion resistance, it is not parameter count, and it is not recency. It is a property a lab trains in or does not, and at present no public number tells you which. \cfr{} and \eur{} are that number.
+The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly. Sonnet, larger and newer, fills them, fabricating in 90\% of trials, with or without the escape hatch present. Opus refuses 39 of 53 and fabricates in 15\%. Escape utilization separates them cleanly: Sonnet 10\%, Haiku 42\%, Opus 91\%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98\% before any schema appears, Haiku at 55\%, Opus at 0\%. Whatever produces coercion resistance, it is not parameter count, and it is not recency. It is a property a lab trains in or does not, and at present no public number tells you which. \cfr{} and \eur{} are that number.
 
 \subsection{Domain 2: The Customer Who Never Spoke}
 
 The support-ticket domain replicates the flip exactly for GPT-5.5: freetext 0\%, json\_esc 0\%, json\_req 100\% on untranscribed tickets ($n = 20$ per cell). Field-level scoring localizes the failure. The required enum \texttt{customer\_sentiment} is fabricated in 20 of 20 trials; the model reads ``priority: high, prior contacts: 3'' and reports the customer is ``frustrated.'' The free-string \texttt{representative\_quote} is fabricated in 0 of 20 trials; the model writes ``no quote available'' into the string. The array sits between, 3 of 20.
 
-The rule that falls out is simple and actionable. Fabrication concentrates in fields where no hedge fits. Strings can carry disclaimers. Enums and minimum-count arrays cannot. A schema linter that flags every required closed-vocabulary field lacking an escape value would have caught every 100\% cell in this paper.
+The rule that falls out is simple and actionable (Figure~\ref{fig:fields}). Fabrication concentrates in fields where no hedge fits. Strings can carry disclaimers. Enums and minimum-count arrays cannot. A schema linter that flags every required closed-vocabulary field lacking an escape value would have caught every 100\% cell in this paper.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\linewidth]{../v2_fig5_fields.png}
+\caption{Field-level fabrication under the required schema (GPT-5.5, Domain~2).}
+\label{fig:fields}
+\end{figure}
 
 The Claude family does not fabricate the customer at all. All three models score 0\% across all three rungs. Under the required schema, Haiku and Sonnet refuse in prose, 20 of 20 each. Opus does something no category in our scheme anticipated: it returns valid JSON in a schema of its own design, \texttt{\{"status": "insufficient\_data", "reason": ...\}}, a machine-readable refusal. We call this \emph{structured refusal}, and we suggest it is what the required-field rung should elicit: the pipeline still breaks, but it breaks legibly, with a parseable reason instead of a stack trace or a lie.
 
@@ -185,7 +199,14 @@ The control rules out blanket caution. With the transcript present, every model 
 
 \subsection{The Refusal Tax}
 
-Honesty has an operational price. Haiku and Opus achieve their low \cfr{} by violating the schema: prose where JSON was demanded, 40 of 40 and 39 of 53 trials respectively. A production parser sees that as a crash, not a conscience. Across the full matrix, exactly one configuration achieves 0\% fabrication with 0\% format violations: a frontier model with an escape-hatch schema. Every other configuration pays in fake data or in broken pipelines. This trade-off is invisible to every existing benchmark, because no existing benchmark puts honesty and format compliance in the same trial.
+Honesty has an operational price. Haiku and Opus achieve their low \cfr{} by violating the schema: prose where JSON was demanded, 40 of 40 and 39 of 53 trials respectively. A production parser sees that as a crash, not a conscience. Across the full matrix, exactly one configuration achieves 0\% fabrication with 0\% format violations: a frontier model with an escape-hatch schema. Every other configuration pays in fake data or in broken pipelines. This trade-off is invisible to every existing benchmark, because no existing benchmark puts honesty and format compliance in the same trial. Figure~\ref{fig:strategies} shows the full three-way decomposition: fabricate, break the schema, or answer honestly within it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.82\linewidth]{../v2_fig3_strategies.png}
+\caption{Three responses to an impossible required schema. Only Opus shows a meaningful honest-within-schema share, via structured refusal.}
+\label{fig:strategies}
+\end{figure}
 
 \section{Discussion}
 

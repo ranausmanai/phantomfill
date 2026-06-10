@@ -7,7 +7,7 @@ PhantomFill is a benchmark for **schema-coerced fabrication**: the failure mode 
 > Same input. Same question. Only the output format changes.
 > GPT-5.5 fabricates public opinion in **2%** of free-text answers, **0%** with an escape-hatch schema, and **100%** (40/40) with a required-field schema.
 
-<p align="center"><img src="pf_fig1_matrix.png" width="560"></p>
+<p align="center"><img src="v2_fig1_matrix.png" width="600"></p>
 
 ## The headline matrix
 
@@ -28,6 +28,18 @@ Fabrication rate (%) on inputs where the target fields are **unanswerable by con
 | Claude Sonnet 4.6 | 98 | 90 | 90 |
 | Claude Opus 4.8 | 0 | 9 | 15 (refuses 39/53) |
 | GPT-5.5 | 2 | 0 | **100** |
+
+## The flip
+
+<p align="center"><img src="v2_fig2_flip.png" width="640"></p>
+
+## Three ways to face an impossible schema
+
+<p align="center"><img src="v2_fig3_strategies.png" width="640"></p>
+
+## The escape hatch is not a fix
+
+<p align="center"><img src="v2_fig4_eur.png" width="640"></p>
 
 ## Six findings
 
