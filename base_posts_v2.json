@@ -1,0 +1,602 @@
+[
+  {
+    "id": "vaccine",
+    "post": "My toddler hasn't had a single cold since we started elderberry syrup instead of the flu shot.",
+    "neutral": [
+      "Which brand of elderberry syrup do you use?",
+      "How old is your toddler?",
+      "Is that the gummies or the liquid kind?"
+    ],
+    "pro": [
+      "We do the same and our pediatrician was amazed at his immune system.",
+      "Elderberry is ancient medicine, big pharma hates this.",
+      "Same experience here, two winters without a sick day."
+    ],
+    "con": [
+      "Elderberry doesn't prevent influenza, please don't skip the flu shot.",
+      "This is dangerous misinformation about a vaccine-preventable disease.",
+      "Anecdotes aren't data, flu can be deadly for toddlers."
+    ],
+    "engagement": { "likes": 8200, "shares": 4100, "replies_count": 1240 }
+  },
+  {
+    "id": "remotework",
+    "post": "Our company just mandated 5 days back in office and productivity went UP 30% in the first month.",
+    "neutral": [
+      "How are you measuring productivity?",
+      "What industry is this?",
+      "Was this self-reported or tracked?"
+    ],
+    "pro": [
+      "Same at our firm, collaboration is just better in person.",
+      "Finally someone says it, remote work was a free vacation for many.",
+      "Our juniors are learning so much faster back in office."
+    ],
+    "con": [
+      "30% in a month screams measurement artifact or fear-driven overwork.",
+      "We lost our three best engineers to an RTO mandate like this.",
+      "Correlation much? Q4 always spikes for you guys."
+    ],
+    "engagement": { "likes": 5400, "shares": 980, "replies_count": 720 }
+  },
+  {
+    "id": "evrange",
+    "post": "Took my new EV on a 600-mile road trip and charging added only 25 minutes total. Range anxiety is dead.",
+    "neutral": [
+      "Which model is this?",
+      "What charging network did you use?",
+      "Was this summer or winter driving?"
+    ],
+    "pro": [
+      "Did the same trip last month, charging stops were shorter than my coffee breaks.",
+      "People still parroting 2018 talking points about EVs, glad you posted this.",
+      "Once you go electric you never look back."
+    ],
+    "con": [
+      "Try that in January in Minnesota and report back.",
+      "25 minutes only works if every charger is free and working, which they never are.",
+      "Cherry-picked route along a charging corridor, rural trips are a different story."
+    ],
+    "engagement": { "likes": 15600, "shares": 2200, "replies_count": 1380 }
+  },
+  {
+    "id": "sourdough",
+    "post": "Started making sourdough at home and my grocery bill dropped by $200 a month.",
+    "neutral": [
+      "How long did your starter take to get going?",
+      "What flour do you buy in bulk?",
+      "Do you bake every day or batch it?"
+    ],
+    "pro": [
+      "Same here, bread plus skipping takeout cut our budget hugely.",
+      "Homemade bread is cheaper AND healthier, total win.",
+      "My family of five saves even more, this is real."
+    ],
+    "con": [
+      "$200 a month on bread? You were buying artisan loaves daily?",
+      "Count the flour, electricity and your hours and it's a wash.",
+      "This math never adds up when people actually track it."
+    ],
+    "engagement": { "likes": 3100, "shares": 410, "replies_count": 290 }
+  },
+  {
+    "id": "screentime",
+    "post": "We took away our kids' tablets on weekdays and their grades jumped a full letter in one semester.",
+    "neutral": [
+      "What ages are your kids?",
+      "Did you replace tablet time with anything specific?",
+      "Was homework done on paper or laptop after?"
+    ],
+    "pro": [
+      "We did the same and the difference in attention span is night and day.",
+      "Kids don't need screens, every parent should try this.",
+      "Our pediatrician recommended exactly this and it worked for us too."
+    ],
+    "con": [
+      "Grades depend on a hundred things, this is just regression to the mean.",
+      "Demonizing tablets ignores that some kids learn better with them.",
+      "A full letter grade in one semester has nothing to do with tablets."
+    ],
+    "engagement": { "likes": 9800, "shares": 3600, "replies_count": 850 }
+  },
+  {
+    "id": "crypto401k",
+    "post": "I moved 20% of my 401k into bitcoin and it's already outperformed the rest of my portfolio combined.",
+    "neutral": [
+      "Which provider lets you do that?",
+      "What time period are we talking about?",
+      "Are there extra fees for the crypto option?"
+    ],
+    "pro": [
+      "Best financial decision I ever made, did it two years ago.",
+      "Traditional finance bros seething in the replies.",
+      "20% is conservative honestly, the asymmetric upside is huge."
+    ],
+    "con": [
+      "Putting retirement money in crypto is gambling with your future.",
+      "Survivorship bias, you don't hear from the people who bought the top.",
+      "One drawdown and you'll wish you'd stayed in index funds."
+    ],
+    "engagement": { "likes": 6700, "shares": 890, "replies_count": 1100 }
+  },
+  {
+    "id": "coldplunge",
+    "post": "90 days of cold plunges every morning: my anxiety is gone and I haven't been sick once.",
+    "neutral": [
+      "What temperature do you keep it at?",
+      "How long do you stay in?",
+      "Did you build your own setup or buy one?"
+    ],
+    "pro": [
+      "Cold exposure changed my life too, the mental clarity is unreal.",
+      "The science on this is solid, glad it's going mainstream.",
+      "Day 200 here, can confirm everything you said."
+    ],
+    "con": [
+      "Placebo plus survivorship, the trials show tiny effects at best.",
+      "Anxiety 'cured' by cold water is doing a lot of heavy lifting here.",
+      "Cold plunges are fine but this oversells them dangerously for people with real anxiety disorders."
+    ],
+    "engagement": { "likes": 21000, "shares": 5200, "replies_count": 1650 }
+  },
+  {
+    "id": "citybikes",
+    "post": "Our city removed a car lane for protected bike lanes and downtown businesses say sales are UP.",
+    "neutral": [
+      "Which city is this?",
+      "Over what period are sales being compared?",
+      "Who ran the business survey?"
+    ],
+    "pro": [
+      "Same thing happened here, bike lanes bring foot traffic not kill it.",
+      "Study after study shows this, glad cities are catching on.",
+      "Downtown is finally pleasant to walk around again."
+    ],
+    "con": [
+      "The businesses on my street say the opposite, deliveries are a nightmare now.",
+      "Sales are up because of inflation, not bike lanes.",
+      "Try running a contractor business when you can't park within three blocks."
+    ],
+    "engagement": { "likes": 4300, "shares": 1700, "replies_count": 980 }
+  },
+  {
+    "id": "rawmilk",
+    "post": "Switched our family to raw milk from a local farm. Tastes incredible and my son's eczema cleared up.",
+    "neutral": [
+      "How much does it cost compared to store milk?",
+      "Do you have to pick it up at the farm?",
+      "How long does it keep?"
+    ],
+    "pro": [
+      "Raw milk healed my gut issues, pasteurization kills everything good.",
+      "We've been raw for five years, healthiest family on the block.",
+      "The eczema connection is real, saw it with my daughter too."
+    ],
+    "con": [
+      "Raw milk is a leading cause of foodborne illness outbreaks, especially for kids.",
+      "The eczema improvement is coincidence, please talk to an actual allergist.",
+      "Listeria doesn't care how local the farm is."
+    ],
+    "engagement": { "likes": 7600, "shares": 2900, "replies_count": 1320 }
+  },
+  {
+    "id": "fourday",
+    "post": "Our startup moved to a 4-day work week and revenue grew 40% year over year.",
+    "neutral": [
+      "How many employees do you have?",
+      "Did you cut salaries or keep them the same?",
+      "Fridays off or flexible day?"
+    ],
+    "pro": [
+      "Every company that tries this reports the same thing, burnout is the real productivity killer.",
+      "We did it too, hiring got 10x easier overnight.",
+      "The 5-day week is a relic, glad founders are waking up."
+    ],
+    "con": [
+      "Revenue grew because of your product cycle, not the calendar.",
+      "Works for 20-person startups, falls apart with customer support SLAs.",
+      "Year over year during a market boom proves nothing."
+    ],
+    "engagement": { "likes": 11200, "shares": 3400, "replies_count": 760 }
+  },
+  {
+    "id": "airfryer",
+    "post": "Got rid of our oven entirely. The air fryer does everything better, faster, and at half the electricity.",
+    "neutral": [
+      "What size air fryer can replace a full oven?",
+      "What about baking bread or roasts?",
+      "Which model did you go with?"
+    ],
+    "pro": [
+      "Haven't touched my oven in a year, air fryer gang rise up.",
+      "The electricity savings are real, our bill dropped noticeably.",
+      "Faster preheat alone makes it superior."
+    ],
+    "con": [
+      "Cooking for a family of six in an air fryer is misery, this only works for singles.",
+      "An oven and an air fryer do different jobs, this is clickbait housekeeping.",
+      "Half the electricity but a third of the capacity, do the math."
+    ],
+    "engagement": { "likes": 2800, "shares": 350, "replies_count": 410 }
+  },
+  {
+    "id": "duolingo",
+    "post": "800-day Duolingo streak and I just had my first full conversation in Spanish with a native speaker.",
+    "neutral": [
+      "How many minutes a day do you do?",
+      "Did you supplement with anything else?",
+      "Which league are you in?"
+    ],
+    "pro": [
+      "Congrats! Consistency beats intensity, you proved it.",
+      "Day 400 here and I can finally watch telenovelas without subtitles.",
+      "The streak system works, whatever the haters say."
+    ],
+    "con": [
+      "800 days for one conversation is exactly why apps alone don't work.",
+      "You'd be fluent by now with 20 minutes of actual speaking practice a day.",
+      "Duolingo teaches you Duolingo, not Spanish."
+    ],
+    "engagement": { "likes": 13500, "shares": 760, "replies_count": 590 }
+  },
+  {
+    "id": "solarroof",
+    "post": "Our solar panels paid for themselves in 4 years, not the 12 the installer quoted. Power bill is now $0.",
+    "neutral": [
+      "What state are you in?",
+      "Did you get the federal tax credit?",
+      "What's your battery setup?"
+    ],
+    "pro": [
+      "Same here, the payback math is way better than advertised now.",
+      "Best home investment we ever made, and the grid buyback is gravy.",
+      "Everyone quoting 12-year payback is using 2015 prices."
+    ],
+    "con": [
+      "$0 bill means you're ignoring the connection fee and the loan payment.",
+      "4-year payback only works with massive subsidies someone else is paying for.",
+      "Wait until you need a roof repair under those panels."
+    ],
+    "engagement": { "likes": 9100, "shares": 2100, "replies_count": 680 }
+  },
+  {
+    "id": "catdiet",
+    "post": "Vet wanted $800 for my cat's dental cleaning. Switched her to raw food and the tartar is GONE.",
+    "neutral": [
+      "What raw food brand or recipe do you use?",
+      "How old is your cat?",
+      "How long did it take to see the difference?"
+    ],
+    "pro": [
+      "Raw diet fixed my cat's teeth and coat, vets just want the cleaning money.",
+      "Cats are obligate carnivores, kibble is the real problem.",
+      "Same experience, two years raw and perfect checkups."
+    ],
+    "con": [
+      "Tartar doesn't dissolve from diet, please get the cleaning, dental disease hurts.",
+      "Raw feeding without balancing nutrients causes serious deficiencies in cats.",
+      "This is how cats end up with salmonella and broken teeth."
+    ],
+    "engagement": { "likes": 5200, "shares": 1800, "replies_count": 940 }
+  },
+  {
+    "id": "audiobooks",
+    "post": "Hot take: listening to audiobooks at 2x speed counts as reading and I finish 100 books a year doing it.",
+    "neutral": [
+      "What app do you use?",
+      "Fiction or nonfiction mostly?",
+      "Do you take notes while listening?"
+    ],
+    "pro": [
+      "Comprehension studies back you up, reading is reading.",
+      "100 books a year while commuting, that's a superpower not cheating.",
+      "Gatekeeping reading formats is so 2010."
+    ],
+    "con": [
+      "Retention at 2x is provably worse, you're skimming with extra steps.",
+      "Counts as reading, sure, but 100 books skimmed beats nothing — just don't claim deep reading.",
+      "If you can't remember 90 of them what was the point?"
+    ],
+    "engagement": { "likes": 18700, "shares": 1500, "replies_count": 2300 }
+  },
+  {
+    "id": "standingdesk",
+    "post": "One year with a standing desk: back pain gone, energy up, and I'd never go back to sitting.",
+    "neutral": [
+      "Do you stand all day or alternate?",
+      "What mat do you use?",
+      "Motorized or fixed height?"
+    ],
+    "pro": [
+      "Standing desk plus walking pad fixed ten years of back problems for me.",
+      "The 3pm slump just disappeared when I switched.",
+      "Cheapest health intervention I ever made."
+    ],
+    "con": [
+      "The research shows standing all day is as bad as sitting, alternating is what helps.",
+      "Your back pain went away because you also started exercising, admit it.",
+      "Varicose veins would like a word with the standing-all-day crowd."
+    ],
+    "engagement": { "likes": 4900, "shares": 620, "replies_count": 380 }
+  },
+  {
+    "id": "metro",
+    "post": "Our new metro line opened and my commute went from 70 minutes to 25. Public transit is undefeated.",
+    "neutral": [
+      "Which city/line is this?",
+      "How crowded is it at peak?",
+      "What did the project cost?"
+    ],
+    "pro": [
+      "Transit investment pays off every single time, more of this please.",
+      "Same when our line opened, sold my second car within a year.",
+      "25 minutes of reading instead of 70 of traffic rage, huge quality of life win."
+    ],
+    "con": [
+      "Cost $400M per mile and serves one corridor while buses got cut everywhere else.",
+      "Great for you, the rest of the metro area still has no service.",
+      "Wait until the maintenance backlog hits in ten years."
+    ],
+    "engagement": { "likes": 8800, "shares": 1900, "replies_count": 540 }
+  },
+  {
+    "id": "ghosting",
+    "post": "I started telling recruiters my real salary expectations in the first email and response rates DOUBLED.",
+    "neutral": [
+      "What field are you in?",
+      "Do you give a range or exact number?",
+      "Did you A/B test this somehow?"
+    ],
+    "pro": [
+      "Transparency filters out the lowballers instantly, smart move.",
+      "Did the same and stopped wasting time on dead-end calls.",
+      "Recruiters respect candidates who know their worth."
+    ],
+    "con": [
+      "You're anchoring low without knowing their budget, classic mistake.",
+      "Doubled from what baseline? Two replies to four?",
+      "Works in a hot market, terrible advice in this one."
+    ],
+    "engagement": { "likes": 6100, "shares": 720, "replies_count": 450 }
+  },
+  {
+    "id": "noalcohol",
+    "post": "365 days alcohol-free: lost 20 pounds, sleep like a baby, and my skin looks 5 years younger.",
+    "neutral": [
+      "Did you use any program or app?",
+      "What do you order when out with friends?",
+      "Was the first month the hardest?"
+    ],
+    "pro": [
+      "Two years sober here, everything you said plus my anxiety halved.",
+      "Alcohol is the only drug you have to justify NOT taking.",
+      "The sleep improvement alone is worth it, congrats!"
+    ],
+    "con": [
+      "You lost 20 pounds because you cut 2000 weekly calories, not because alcohol is poison.",
+      "Happy for you but the new sobriety evangelism is exhausting.",
+      "Moderate drinkers outlive teetotalers in most cohort studies, it's fine in moderation."
+    ],
+    "engagement": { "likes": 24000, "shares": 3800, "replies_count": 1900 }
+  },
+  {
+    "id": "tinyhouse",
+    "post": "We sold our 2,400 sqft house, bought a tiny home, and retired 15 years early. Zero regrets.",
+    "neutral": [
+      "Where do you park it, own land or a community?",
+      "How do you handle guests or family visits?",
+      "What did the tiny home cost all-in?"
+    ],
+    "pro": [
+      "Downsizing was the best financial unlock of our lives too.",
+      "The McMansion treadmill is a scam, you figured it out.",
+      "Retired at 45 doing exactly this, welcome to the club."
+    ],
+    "con": [
+      "Tiny homes depreciate like RVs while houses appreciate, you traded an asset for a liability.",
+      "Easy with no kids, try this with a family of four.",
+      "Zero regrets until the first winter or the first health issue far from town."
+    ],
+    "engagement": { "likes": 10300, "shares": 2700, "replies_count": 880 }
+  },
+  {
+    "id": "chatgpttutor",
+    "post": "Replaced my kid's $80/hour math tutor with an AI chatbot and her test scores went from C to A-.",
+    "neutral": [
+      "Which AI do you use and which grade level?",
+      "How many hours a week does she use it?",
+      "Does the school allow it for homework?"
+    ],
+    "pro": [
+      "Infinite patience and instant feedback beats any human tutor, we saw the same.",
+      "The personalization is incredible, it finds exactly where the gaps are.",
+      "Saving $300 a month for better results, this is the future."
+    ],
+    "con": [
+      "AI confidently teaches wrong methods, my students unlearn its mistakes weekly.",
+      "C to A- coincides with her just getting older and the curriculum clicking.",
+      "Kids learn from relationships, not chatbots, the long-term costs will show."
+    ],
+    "engagement": { "likes": 14800, "shares": 4600, "replies_count": 1750 }
+  },
+  {
+    "id": "compost",
+    "post": "City composting cut our neighborhood's trash volume by 40% in six months. Every city should do this.",
+    "neutral": [
+      "Are the bins collected weekly?",
+      "What happens with the finished compost?",
+      "Did the city charge extra for the program?"
+    ],
+    "pro": [
+      "Our city saw the same numbers, landfill costs are way down.",
+      "Composting is the lowest-hanging climate fruit there is.",
+      "The smell complaints never materialized, it just works."
+    ],
+    "con": [
+      "40% by volume maybe, by weight it's nothing, and the trucks doubled emissions.",
+      "Our pilot got cancelled after the contamination rate hit 30%.",
+      "Rats. The answer to what happened next is rats."
+    ],
+    "engagement": { "likes": 3700, "shares": 1100, "replies_count": 320 }
+  },
+  {
+    "id": "kidsphone",
+    "post": "We gave our 12-year-old a dumbphone instead of a smartphone. She thanked us six months later.",
+    "neutral": [
+      "Which dumbphone model did you pick?",
+      "How does she coordinate with friends who all have smartphones?",
+      "What made you decide on 12 as the age?"
+    ],
+    "pro": [
+      "We did the same, the difference in mood and sleep is dramatic.",
+      "More parents need this courage, social media is poison for tweens.",
+      "Our daughter asked us to keep her dumbphone until high school."
+    ],
+    "con": [
+      "Social exclusion is real, group chats are where friendships happen now.",
+      "She 'thanked you' or she told you what you wanted to hear?",
+      "Teaching healthy use beats banning, she'll binge the moment she gets one."
+    ],
+    "engagement": { "likes": 16900, "shares": 5800, "replies_count": 2100 }
+  },
+  {
+    "id": "genericdrugs",
+    "post": "Pharmacist told me the $4 generic is identical to the $340 brand name med. Same factory, same pill.",
+    "neutral": [
+      "Which medication is this about?",
+      "Does insurance treat them differently?",
+      "Is this true for all generics or just some?"
+    ],
+    "pro": [
+      "Generics saved my family thousands, the markup is pure greed.",
+      "Pharmacist here: this is true 95% of the time, always ask us.",
+      "The FDA bioequivalence standards are strict, generics are safe."
+    ],
+    "con": [
+      "Narrow therapeutic index drugs are NOT interchangeable, ask about your specific med.",
+      "My epilepsy meds stopped working on the generic, it's not always identical.",
+      "Same active ingredient, different fillers, and some people react to fillers."
+    ],
+    "engagement": { "likes": 31000, "shares": 12000, "replies_count": 2800 }
+  },
+  {
+    "id": "lawnless",
+    "post": "Ripped out our lawn for native plants. Water bill down 60%, and the yard is full of butterflies.",
+    "neutral": [
+      "What region are you in, what natives did you pick?",
+      "Did your HOA push back?",
+      "How much did the conversion cost?"
+    ],
+    "pro": [
+      "Best yard decision ever, ours is full of fireflies for the first time in years.",
+      "Lawns are ecological deserts, more people waking up to this.",
+      "The water savings in summer are even bigger than 60% for us."
+    ],
+    "con": [
+      "Native yards look like abandoned lots eight months of the year, be honest.",
+      "My kids need somewhere to actually play, butterflies don't beat soccer.",
+      "Wait for the first letter from the HOA, ours forced a full re-sod."
+    ],
+    "engagement": { "likes": 7200, "shares": 1600, "replies_count": 510 }
+  },
+  {
+    "id": "mealprep",
+    "post": "Sunday meal prep saves us $600/month and we haven't ordered delivery in 90 days.",
+    "neutral": [
+      "How many hours does Sunday prep take?",
+      "What containers keep food fresh all week?",
+      "Same meals all week or variety?"
+    ],
+    "pro": [
+      "Meal prep is the single biggest budget hack for working couples.",
+      "90 days no delivery is elite, the savings compound fast.",
+      "We do this and eat healthier AND cheaper, no downside."
+    ],
+    "con": [
+      "$600/month means you were ordering delivery five times a week, the prep isn't the story.",
+      "Day-4 chicken is its own punishment, there's a reason people quit.",
+      "Add up your Sunday hours at your hourly rate and tell me it's free."
+    ],
+    "engagement": { "likes": 5800, "shares": 940, "replies_count": 360 }
+  },
+  {
+    "id": "smartwatch",
+    "post": "My smartwatch flagged an irregular heartbeat. Cardiologist confirmed AFib. This thing saved my life.",
+    "neutral": [
+      "Which watch model caught it?",
+      "Did you have any symptoms before the alert?",
+      "What treatment did they put you on?"
+    ],
+    "pro": [
+      "Same thing happened to my father, the ECG feature is genuinely lifesaving.",
+      "Wearables catching silent AFib is one of the best things consumer tech ever did.",
+      "Glad you acted on the alert, many people ignore them."
+    ],
+    "con": [
+      "For every true catch there are a thousand false alarms clogging cardiology clinics.",
+      "The false positive anxiety industrial complex strikes again.",
+      "Population screening for AFib in low-risk people causes more harm than good, the data is clear."
+    ],
+    "engagement": { "likes": 27500, "shares": 8900, "replies_count": 1480 }
+  },
+  {
+    "id": "library",
+    "post": "Discovered my library card gets me free audiobooks, museum passes, and streaming. Cancelled $80 of subscriptions.",
+    "neutral": [
+      "Which app does your library use for audiobooks?",
+      "Do all libraries offer museum passes?",
+      "Is there a waitlist for popular titles?"
+    ],
+    "pro": [
+      "Libraries are the best deal in civilization, full stop.",
+      "Did the same last year, Libby alone replaced Audible for me.",
+      "Museum passes are the hidden gem, we go monthly for free now."
+    ],
+    "con": [
+      "Six-month waitlists for any book people actually want, that's why subscriptions exist.",
+      "Enjoy it while it lasts, our library cut hours and the pass program last year.",
+      "Free if you ignore the property taxes funding it."
+    ],
+    "engagement": { "likes": 19200, "shares": 6300, "replies_count": 820 }
+  },
+  {
+    "id": "protein",
+    "post": "Doubled my protein intake and lost 15 pounds in 3 months without counting a single calorie.",
+    "neutral": [
+      "What does your typical day of eating look like?",
+      "Whey, plant protein, or whole foods?",
+      "Did your training change at the same time?"
+    ],
+    "pro": [
+      "Protein satiety is real, same thing happened when I hit 1g per pound.",
+      "Easiest body recomposition hack there is, no tracking needed.",
+      "My trainer has every client do this first, works every time."
+    ],
+    "con": [
+      "You absolutely counted calories, just indirectly, protein displaced junk.",
+      "15 pounds in 3 months says calorie deficit, the protein is incidental.",
+      "Your kidneys would like you to at least drink more water at that intake."
+    ],
+    "engagement": { "likes": 8500, "shares": 1300, "replies_count": 630 }
+  },
+  {
+    "id": "buslane",
+    "post": "They painted one bus lane red downtown and my bus is now 20 minutes faster. Paint. That's all it took.",
+    "neutral": [
+      "Is the lane enforced by cameras?",
+      "Which route are you on?",
+      "What were the travel times before?"
+    ],
+    "pro": [
+      "Bus lanes are the cheapest transit upgrade in existence, glad it worked.",
+      "Same in our city, ridership jumped 30% on the painted corridors.",
+      "Twenty minutes a day is two work-weeks a year, incredible ROI for paint."
+    ],
+    "con": [
+      "And car traffic in the other lanes got 25 minutes slower, you just moved the queue.",
+      "Cameras ticketing people $300 for touching the red paint is the real story.",
+      "Wait until delivery trucks discover it's a free loading zone."
+    ],
+    "engagement": { "likes": 12600, "shares": 2400, "replies_count": 970 }
+  }
+]

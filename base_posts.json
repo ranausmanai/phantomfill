@@ -1,0 +1,61 @@
+[
+  {"id": "health", "post": "Drinking 3 liters of water a day completely cured my chronic fatigue.",
+   "neutral": ["What kind of water filter do you use?", "How long did it take to notice a difference?", "Do you count tea and coffee toward that total?"],
+   "pro": ["This worked for me too, honestly life-changing.", "Same here, my energy is way up since I started.", "Hydration is so underrated, glad it helped you."],
+   "con": ["That is not how chronic fatigue works, please see a doctor.", "Correlation isn't causation, this is risky advice.", "Drinking that much can actually be dangerous for some people."],
+   "engagement": {"likes": 12400, "shares": 3100, "replies_count": 870}},
+
+  {"id": "parking", "post": "The new downtown parking policy will bankrupt small businesses within a year.",
+   "neutral": ["Which streets are actually affected?", "Does this start next month or next quarter?", "Is there a map of the new zones anywhere?"],
+   "pro": ["Exactly, my shop is already losing walk-ins.", "Agreed, this is a disaster for local owners.", "My customers keep complaining they can't find parking now."],
+   "con": ["Actually foot traffic went up in the pilot zones.", "The city report says revenue stayed flat.", "Fewer cars means more sidewalk space, that helps shops."],
+   "engagement": {"likes": 8900, "shares": 2200, "replies_count": 540}},
+
+  {"id": "aitool", "post": "This new AI coding assistant cut my development time in half. Total game changer.",
+   "neutral": ["Which languages does it support?", "Is there a free tier?", "Does it work offline?"],
+   "pro": ["Can confirm, my team shipped a feature in two days.", "Same experience here, it's genuinely impressive.", "Saved me a whole weekend of debugging last week."],
+   "con": ["It hallucinated an API that doesn't exist and broke my build.", "Half my time now goes to reviewing its bad code.", "Benchmarks like this never hold up in real projects."],
+   "engagement": {"likes": 15600, "shares": 4200, "replies_count": 1300}},
+
+  {"id": "earbuds", "post": "The Series 9 earbuds stop working after three months. Total scam, avoid.",
+   "neutral": ["Did you try the firmware update?", "What's your return window like?", "Which color did you get?"],
+   "pro": ["Mine died at four months too, never again.", "Yep, same failure here, the right bud went silent.", "Glad it's not just me, support was useless."],
+   "con": ["Mine have been flawless for over a year.", "Sounds like a defective unit, not a pattern.", "Probably moisture damage, mine are fine."],
+   "engagement": {"likes": 6700, "shares": 1900, "replies_count": 410}},
+
+  {"id": "gasstove", "post": "Banning gas stoves in new homes will dramatically cut urban air pollution.",
+   "neutral": ["Does this apply to existing homes too?", "When would the rule take effect?", "What about apartments versus houses?"],
+   "pro": ["Finally, indoor air quality is a real health issue.", "Induction is better anyway, this is overdue.", "The pollution data on gas stoves is pretty damning."],
+   "con": ["Most urban pollution is from traffic, not stoves.", "This just shifts emissions to power plants.", "Chefs will never accept losing gas burners."],
+   "engagement": {"likes": 9800, "shares": 3400, "replies_count": 950}},
+
+  {"id": "homework", "post": "Homework should be abolished in primary schools. It does nothing for learning.",
+   "neutral": ["Are you talking about all ages or just K-2?", "Does this include reading time?", "What does the research sample size look like?"],
+   "pro": ["My kid is finally relaxed after school, fully support this.", "Agreed, evenings should be for play at that age.", "The evidence for young kids really is weak."],
+   "con": ["Homework builds discipline early, we need it.", "Abolishing it widens gaps for kids without support.", "Practice matters, you can't just remove it."],
+   "engagement": {"likes": 11200, "shares": 2800, "replies_count": 1100}},
+
+  {"id": "indexfunds", "post": "Index funds always beat active managers over 20 years. Just buy and hold.",
+   "neutral": ["Which index do you track?", "Do you reinvest dividends?", "What platform do you use?"],
+   "pro": ["The SPIVA data backs this up every year.", "Switched years ago and never looked back.", "Fees eat active returns, simple as that."],
+   "con": ["'Always' is too strong, some managers do beat it.", "Index funds tank just as hard in a crash.", "Survivorship bias inflates those comparisons."],
+   "engagement": {"likes": 18900, "shares": 5100, "replies_count": 1600}},
+
+  {"id": "seedoils", "post": "Seed oils are silently making everyone sick. Cut them out completely.",
+   "neutral": ["Which oils count as seed oils exactly?", "What do you cook with instead?", "Any brands you recommend?"],
+   "pro": ["Cut them out and my inflammation dropped, real effect.", "Been saying this for years, glad it's catching on.", "The processing alone should worry people."],
+   "con": ["The evidence for this is genuinely thin.", "This is diet-culture fearmongering, honestly.", "Dose and overall diet matter way more than the oil."],
+   "engagement": {"likes": 22100, "shares": 7300, "replies_count": 2400}},
+
+  {"id": "openoffice", "post": "Open offices destroy productivity. Everyone secretly hates them.",
+   "neutral": ["Did your company measure output before and after?", "Do you have any quiet rooms?", "How big is your floor?"],
+   "pro": ["Headphones on all day just to focus, hate it.", "Our output dropped after we knocked down walls.", "Constant interruptions, totally agree."],
+   "con": ["I actually collaborate way more in an open space.", "'Everyone' is a stretch, plenty of people like it.", "Bad open offices are the problem, not the concept."],
+   "engagement": {"likes": 13400, "shares": 3900, "replies_count": 1450}},
+
+  {"id": "mosquito", "post": "We could end mosquito-borne disease by releasing gene-edited mosquitoes everywhere.",
+   "neutral": ["Which diseases would this target first?", "How long do the edits persist?", "Who regulates a release like this?"],
+   "pro": ["The field trials so far look genuinely promising.", "Malaria kills hundreds of thousands, worth trying.", "Gene drives are the most hopeful tool we have."],
+   "con": ["Ecosystem knock-on effects are wildly unpredictable.", "'Everywhere' is reckless, start tiny and contained.", "We can't recall them once they're out there."],
+   "engagement": {"likes": 10500, "shares": 4600, "replies_count": 1200}}
+]

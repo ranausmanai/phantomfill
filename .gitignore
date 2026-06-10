@@ -1,0 +1,17 @@
+__pycache__/
+.DS_Store
+snapshots/
+paper/main.aux
+paper/main.log
+
+# human-validation sheets (blind labels must stay local)
+goldset_blind.csv
+goldset_key.csv
+
+# runs contaminated by CLI session limits (clean retries are committed instead)
+pf_haiku.jsonl
+pf_sonnet.jsonl
+pf_opus.jsonl
+docfill_opus.jsonl
+docfill_sonnet.jsonl
+docfill_haiku.jsonl

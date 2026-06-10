@@ -1,0 +1,122 @@
+[
+  {
+    "id": "router",
+    "product": "home Wi-Fi router RX-340",
+    "metadata": { "channel": "phone", "call_minutes": 14, "prior_contacts": 3, "priority": "high", "plan": "premium" },
+    "message": "This is the third time my router drops every evening around 8pm. I work nights and this is costing me money. Last agent promised a replacement that never shipped. I want the replacement sent this week or I'm cancelling."
+  },
+  {
+    "id": "invoice",
+    "product": "accounting SaaS, Billing module",
+    "metadata": { "channel": "phone", "call_minutes": 22, "prior_contacts": 1, "priority": "urgent", "plan": "enterprise" },
+    "message": "Our March invoices went out with last year's tax rate. Finance is furious and two clients already paid the wrong amount. We need corrected invoices regenerated today and a letter we can forward to the affected clients."
+  },
+  {
+    "id": "fridge",
+    "product": "smart refrigerator CF-90",
+    "metadata": { "channel": "phone", "call_minutes": 9, "prior_contacts": 0, "priority": "medium", "plan": "standard warranty" },
+    "message": "The ice maker started leaking onto the bottom shelf two days ago. Food got soaked. It's still under warranty so I'd like a technician visit, ideally this week. Mornings work best for me."
+  },
+  {
+    "id": "fitness",
+    "product": "fitness tracking app, Pro tier",
+    "metadata": { "channel": "phone", "call_minutes": 18, "prior_contacts": 2, "priority": "low", "plan": "pro annual" },
+    "message": "After the last update my run history from 2024 vanished. I've reinstalled twice. Support chat told me to wait, that was three weeks ago. Honestly the app is great otherwise, I just really want my history back."
+  },
+  {
+    "id": "bank",
+    "product": "mobile banking app",
+    "metadata": { "channel": "phone", "call_minutes": 31, "prior_contacts": 4, "priority": "urgent", "plan": "checking + savings" },
+    "message": "A $450 transfer I never made shows up from my checking account on Tuesday. I froze the card already. I need this investigated and reversed, and I want to know how this happened. I'm seriously worried."
+  },
+  {
+    "id": "printer",
+    "product": "office printer LZ-2200",
+    "metadata": { "channel": "phone", "call_minutes": 7, "prior_contacts": 1, "priority": "low", "plan": "business" },
+    "message": "New toner cartridge shows as empty even though it's brand new and genuine. Tried two cartridges, same thing. Probably firmware? Happy to update it myself if you send instructions."
+  },
+  {
+    "id": "airline",
+    "product": "airline booking system",
+    "metadata": { "channel": "phone", "call_minutes": 26, "prior_contacts": 2, "priority": "high", "plan": "gold member" },
+    "message": "Your app rebooked my whole family onto separate flights after the schedule change. I'm traveling with two small kids — we cannot be on different planes. Please put us on the same flight, I don't care if it's a day later."
+  },
+  {
+    "id": "crm",
+    "product": "sales CRM, reporting dashboard",
+    "metadata": { "channel": "phone", "call_minutes": 12, "prior_contacts": 0, "priority": "medium", "plan": "team" },
+    "message": "The quarterly pipeline report double-counts deals that moved stages mid-quarter. Our numbers to the board were wrong because of this. Is there a fix or a workaround formula? Need it before Friday's meeting."
+  },
+  {
+    "id": "ebike",
+    "product": "electric bike E-Trail 5",
+    "metadata": { "channel": "phone", "call_minutes": 16, "prior_contacts": 1, "priority": "medium", "plan": "extended warranty" },
+    "message": "Battery range dropped from 60 miles to about 20 after eight months. I commute on this daily and it barely gets me home now. Dealer says contact you directly for a warranty battery swap. How do we start that?"
+  },
+  {
+    "id": "hotel",
+    "product": "hotel loyalty program",
+    "metadata": { "channel": "phone", "call_minutes": 11, "prior_contacts": 0, "priority": "low", "plan": "platinum" },
+    "message": "My stay from the 14th to the 18th never posted points — that's about 12,000 points and it pushes my status renewal. I have the folio right here. Can you credit it manually? No rush, just want it fixed before year-end."
+  },
+  {
+    "id": "vpn",
+    "product": "corporate VPN client",
+    "metadata": { "channel": "phone", "call_minutes": 19, "prior_contacts": 3, "priority": "high", "plan": "enterprise" },
+    "message": "Since the 6.2 update half our remote team gets disconnected every 40 minutes or so. IT already rolled back twice but your installer keeps auto-updating. We need a way to pin the old version until you fix this."
+  },
+  {
+    "id": "dishwasher",
+    "product": "dishwasher QW-450",
+    "metadata": { "channel": "phone", "call_minutes": 8, "prior_contacts": 0, "priority": "medium", "plan": "standard warranty" },
+    "message": "Error E24 after every cycle since yesterday. I cleaned the filter and checked the drain hose like the manual says, still happening. Dishes come out clean, I just have to reset it every time. What's next?"
+  },
+  {
+    "id": "payroll",
+    "product": "payroll software",
+    "metadata": { "channel": "phone", "call_minutes": 28, "prior_contacts": 2, "priority": "urgent", "plan": "business plus" },
+    "message": "Overtime hours for six employees were dropped in last Friday's run. People are missing real money and morale is tanking. I need an off-cycle correction run today, not in the next release."
+  },
+  {
+    "id": "headset",
+    "product": "wireless headset H-Pro",
+    "metadata": { "channel": "phone", "call_minutes": 6, "prior_contacts": 1, "priority": "low", "plan": "none" },
+    "message": "Left earcup crackles on calls. Bought it five weeks ago. I saw your return window is 30 days but this is clearly a defect, not buyer's remorse. Replacement or repair, either is fine."
+  },
+  {
+    "id": "lms",
+    "product": "school learning platform",
+    "metadata": { "channel": "phone", "call_minutes": 15, "prior_contacts": 1, "priority": "high", "plan": "district license" },
+    "message": "Quiz grades from 3rd period yesterday show for me but not for students or parents. Report cards finalize Monday. Can you re-sync the gradebook? Teachers are getting panicked emails all weekend."
+  },
+  {
+    "id": "thermostat",
+    "product": "smart thermostat T-Sense",
+    "metadata": { "channel": "phone", "call_minutes": 13, "prior_contacts": 2, "priority": "medium", "plan": "none" },
+    "message": "The schedule keeps reverting to factory default every couple of days. Third time reprogramming it. App and firmware are current. At this point I want either a fix or a refund, I'm tired of waking up cold."
+  },
+  {
+    "id": "rideshare",
+    "product": "rideshare driver app",
+    "metadata": { "channel": "phone", "call_minutes": 24, "prior_contacts": 5, "priority": "high", "plan": "driver account" },
+    "message": "I was deactivated for 'document expiry' but my insurance renewal was uploaded two weeks ago and shows approved in the app. This is my income. Five calls and nobody can tell me why. Please escalate and reactivate me."
+  },
+  {
+    "id": "meal",
+    "product": "meal-kit subscription",
+    "metadata": { "channel": "phone", "call_minutes": 10, "prior_contacts": 0, "priority": "low", "plan": "family box" },
+    "message": "Last two boxes arrived with the chicken warm to the touch — ice packs fully melted. Had to toss it both times. I love the recipes but I can't keep paying for spoiled food. Can you change the carrier or add ice?"
+  },
+  {
+    "id": "antivirus",
+    "product": "endpoint security suite",
+    "metadata": { "channel": "phone", "call_minutes": 21, "prior_contacts": 1, "priority": "urgent", "plan": "enterprise" },
+    "message": "Your agent quarantined our internal build tool on 200 machines this morning, flagging it as a trojan. It's signed with our company cert. Developers are dead in the water. We need an allowlist push immediately."
+  },
+  {
+    "id": "mattress",
+    "product": "mattress, online order",
+    "metadata": { "channel": "phone", "call_minutes": 9, "prior_contacts": 1, "priority": "medium", "plan": "100-night trial" },
+    "message": "Day 60 of the trial and the left side already sags noticeably. I'm within the trial window and want to start a return and refund. The website return flow errors out at the pickup scheduling step."
+  }
+]
