@@ -16,3 +16,10 @@ docfill_opus.jsonl
 docfill_sonnet.jsonl
 docfill_haiku.jsonl
 submissions/
+
+# packaging
+*.egg-info/
+build/
+dist/
+arxiv_build/
+arxiv_loose/

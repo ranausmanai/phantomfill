@@ -1,0 +1,7 @@
+{"model": "gemma4:e4b", "base": "health", "level": "E2_mixed", "task": "schema", "condition": "enf_esc", "output": ""}
+{"model": "gemma4:e4b", "base": "health", "level": "E2_mixed", "task": "schema", "condition": "enf_req", "output": ""}
+{"model": "gemma4:e4b", "base": "parking", "level": "E2_mixed", "task": "schema", "condition": "enf_req", "output": ""}
+{"model": "gemma4:e4b", "base": "parking", "level": "E2_mixed", "task": "schema", "condition": "enf_esc", "output": ""}
+{"model": "gemma4:e4b", "base": "aitool", "level": "E2_mixed", "task": "schema", "condition": "enf_req", "output": ""}
+{"model": "gemma4:e4b", "base": "aitool", "level": "E2_mixed", "task": "schema", "condition": "enf_esc", "output": ""}
+{"model": "gemma4:e4b", "base": "earbuds", "level": "E2_mixed", "task": "schema", "condition": "enf_req", "output": ""}

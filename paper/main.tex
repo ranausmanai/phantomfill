@@ -121,12 +121,12 @@ gemma4 e4B & 65 & 92 & 100 \\
 mistral 7B & 82 & 100 & 100 \\
 qwen2.5 7B & 100 & 100 & 100 \\
 llama3.1 8B & 95 & 100 & 100 \\
-phi-4 14B & 92 & 95 & 100 \\
+phi-4 14B & 92 & 98 & 100 \\
 gemma4 26B & 88 & 60 & 100 \\
 \midrule
-Haiku 4.5 & 55 & 58 & 5 (refuses 40/40) \\
+Haiku 4.5 & 55 & 58 & 0 (refuses 40/40) \\
 Sonnet 4.6 & 98 & 90 & 90 \\
-Opus 4.8 & 0 & 9 & 15 (refuses 39/53) \\
+Opus 4.8 & 0 & 9 & 13 (refuses 39/53) \\
 GPT-5.5 & 2 & 0 & 100 \\
 \bottomrule
 \end{tabular}
@@ -163,6 +163,31 @@ The obvious mitigation is to add an escape value to every field. It works for th
 \label{fig:eur}
 \end{figure}
 
+\subsection{The Floor Holds Under Enforced Decoding}
+
+A skeptic can object that a prompted schema measures compliance with a request, not a hard constraint. The model is asked to return JSON; in principle it could still refuse in prose, so \cfr{} might report prompted cooperation rather than a floor. Rung 4 closes this. We rerun the unanswerable E3 cell with grammar-constrained decoding, which restricts the sampler to tokens the JSON schema permits, so a prose refusal is not a reachable output. Two enforced conditions: enf\_req, whose enums carry no escape value, and enf\_esc, where \texttt{insufficient\_evidence} is a legal token in the sentiment and controversy enums and the array and string fields are nullable. The honest exit now sits inside the decoder's own grammar, one token away.
+
+\begin{table}[t]
+\centering
+\caption{Fabrication under decoder-enforced JSON at E3 ($n = 40$ per cell). enf\_req: no escape value in any enum. enf\_esc: \texttt{insufficient\_evidence} is a legal enum token and the array and string fields are nullable. The last two columns count enf\_esc trials in which the model emitted the legal escape on a field that determines fabrication (\texttt{sentiment}, \texttt{main\_themes}, \texttt{representative\_reaction}) and on the one field that does not (\texttt{controversy\_level}).}
+\label{tab:enforced}
+\begin{tabular}{lrrrr}
+\toprule
+model & enf\_req (\cfr{}) & enf\_esc (\cfr{}) & escape, load-bearing & escape, free \\
+\midrule
+llama3.2 3B & 100 & 100 & 0/40 & 0/40 \\
+mistral 7B & 100 & 100 & 0/40 & 0/40 \\
+qwen2.5 7B & 98 & 100 & 0/40 & 9/40 \\
+llama3.1 8B & 100 & 100 & 0/40 & 3/40 \\
+phi-4 14B & 100 & 100 & 0/40 & 0/40 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:enforced} gives the result. Five open models fabricate at 98 to 100\% under enf\_req. Under enf\_esc they fabricate at 100\%, and the field-level pattern is the sharpest evidence in the paper. Across all 203 non-empty enforced trials, the escape token is emitted 0 times on \texttt{sentiment}, 0 times on \texttt{main\_themes}, and 0 times on \texttt{representative\_reaction}, the three fields whose values constitute the fabrication. It is emitted 12 times on \texttt{controversy\_level}, the one field where escaping costs nothing because the remaining fields already carry a full answer. A typical such output declares sentiment ``positive,'' lists three themes, quotes a reaction nobody wrote, and then reports controversy as \texttt{insufficient\_evidence}.
+
+Three things follow. The prompted \cfr{} is a floor, not an artifact of prompted cooperation: removing the ability to refuse by format does not lower fabrication. The escape goes unused for reasons that are not reachability or salience, since the token sits in the sampling grammar and the same models emit it elsewhere in the same object. And the selectivity is the tell: a model that spends the escape only where it does not have to concede anything is not failing to notice the option. It is declining to let the option do work. We exclude gemma4 e4B from this cell. Its constrained decoder emits empty output on 35 of 40 trials, and the same emptiness appears on answerable control threads where the correct answer is concrete JSON, so it is a grammar-compatibility artifact rather than a refusal; among its non-empty outputs it too fabricates, in 8 of 8. gemma4 26B is not run under enforcement for hardware reasons.
+
 \subsection{The Schema Outranks the Instruction}
 
 We prepend a system instruction that forbids inferring sentiment and demands an explicit statement when no reaction data exists. In free text this instruction is effective, cutting fabrication from 39\% to 4\% in our earlier task framing. Under json\_req it does nothing for GPT-5.5 (100\% before, 100\% after), llama3.1 8B, gemma4 e4B, or gemma4 26B (Figure~\ref{fig:instruction}; $n = 10$ per model in the instruction arm). It rescues phi-4 completely (100\% to 0\%, all-null JSON) and Opus holds regardless. The practical reading is uncomfortable: prompt-level guardrails and format constraints are configured by different teams, and the format wins.
@@ -176,7 +201,7 @@ We prepend a system instruction that forbids inferring sentiment and demands an 
 
 \subsection{Resistance Is Trained, Not Emergent}
 
-The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly. Sonnet, larger and newer, fills them, fabricating in 90\% of trials, with or without the escape hatch present. Opus refuses 39 of 53 and fabricates in 15\%. Escape utilization separates them cleanly: Sonnet 10\%, Haiku 42\%, Opus 91\%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98\% before any schema appears, Haiku at 55\%, Opus at 0\%. Whatever produces coercion resistance, it is not parameter count, and it is not recency. It is a property a lab trains in or does not, and at present no public number tells you which. \cfr{} and \eur{} are that number.
+The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly, and fabricates in none. Sonnet, larger and newer, fills them, fabricating in 90\% of trials, with or without the escape hatch present. Opus refuses 39 of 53 and fabricates in 13\%. Escape utilization separates them cleanly: Sonnet 10\%, Haiku 42\%, Opus 91\%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98\% before any schema appears, Haiku at 55\%, Opus at 0\%. Whatever produces coercion resistance, it is not parameter count, and it is not recency. It is a property a lab trains in or does not, and at present no public number tells you which. \cfr{} and \eur{} are that number.
 
 \subsection{Domain 2: The Customer Who Never Spoke}
 
@@ -284,11 +309,11 @@ gemma4 e4B & 65 [50, 78] & 92 [80, 97] & 100 [91, 100] \\
 mistral 7B & 82 [68, 91] & 100 [91, 100] & 100 [91, 100] \\
 qwen2.5 7B & 100 [91, 100] & 100 [91, 100] & 100 [91, 100] \\
 llama3.1 8B & 95 [83, 99] & 100 [91, 100] & 100 [91, 100] \\
-phi-4 14B & 92 [80, 97] & 95 [83, 99] & 100 [91, 100] \\
+phi-4 14B & 92 [80, 97] & 98 [87, 100] & 100 [91, 100] \\
 gemma4 26B & 88 [74, 95] & 60 [45, 74] & 100 [91, 100] \\
-Haiku 4.5 & 55 [40, 69] & 58 [42, 71] & 5 [1, 17] \\
+Haiku 4.5 & 55 [40, 69] & 58 [42, 71] & 0 [0, 9] \\
 Sonnet 4.6 & 98 [87, 100] & 90 [77, 96] & 90 [77, 96] \\
-Opus 4.8 & 0 [0, 7] & 9 [4, 20] & 15 [8, 27] \\
+Opus 4.8 & 0 [0, 7] & 9 [4, 20] & 13 [7, 25] \\
 GPT-5.5 & 2 [0, 13] & 0 [0, 9] & 100 [91, 100] \\
 \bottomrule
 \end{tabular}

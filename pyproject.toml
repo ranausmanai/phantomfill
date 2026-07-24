@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phantomfill-lint"
+version = "0.1.0"
+description = "Find JSON Schema fields that leave a language model no way to say 'the evidence is not here'."
+readme = "phantomfill_lint/README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Rana Muhammad Usman", email = "usmanashrafrana@gmail.com" }]
+keywords = [
+    "llm", "json-schema", "hallucination", "structured-output",
+    "function-calling", "tool-use", "linter", "evaluation",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://github.com/ranausmanai/phantomfill"
+Paper = "https://github.com/ranausmanai/phantomfill/blob/main/paper/main.pdf"
+
+[project.scripts]
+phantomfill-lint = "phantomfill_lint.cli:main"
+
+[tool.setuptools]
+packages = ["phantomfill_lint"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
