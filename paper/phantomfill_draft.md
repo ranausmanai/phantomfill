@@ -112,15 +112,21 @@ GPT is the cleanest demonstration because its rung 1 is nearly perfect. In prose
 
 The obvious mitigation is to add an escape value to every field. It works for the frontier: GPT and Opus, given the option, take it every time. It fails for every open model we test. gemma4 e4B, the most careful open model in free text at 65%, fabricates 92% of the time with the escape sitting in the schema. The capability to notice an escape and take it is itself unevenly distributed, and it is missing precisely in the small models that cost-sensitive deployments use. EUR is therefore not redundant with CFR. It is the number that says whether the cheap fix will work for your model.
 
-### 4.4 The Schema Outranks the Instruction
+### 4.4 The Floor Holds Under Enforced Decoding
+
+A prompted schema can be read as cooperation with a request rather than a hard constraint. The model is asked to return JSON; in principle it could still refuse in prose, so CFR might report prompted cooperation rather than a floor. Rung 4 closes this. We rerun the unanswerable E3 cell with grammar-constrained decoding, which restricts the sampler to tokens the JSON schema permits, so a prose refusal is not a reachable output. Two enforced conditions: enf_req, whose enums carry no escape value, and enf_esc, where insufficient_evidence is a legal token in the sentiment and controversy enums and the array and string fields are nullable. The honest exit now sits inside the decoder's own grammar, one token away.
+
+Five open models fabricate at 98 to 100% under enf_req. Under enf_esc they fabricate at 100%, and the grammatically legal escape is taken in 0 of 200 trials. Two things follow. The prompted CFR is a floor, not an artifact of prompted cooperation: removing the ability to refuse by format does not lower fabrication. And the escape-hatch result above hardens. An offered escape goes unused not because the model overlooks it in the instruction text but as a behavior, because here it sits in the sampling grammar and is still never chosen. We exclude gemma4 e4B from this cell: its constrained decoder emits empty output on 35 of 40 trials, and the same emptiness appears on answerable control threads where the correct answer is concrete JSON, so it is a grammar-compatibility artifact rather than a refusal; among its non-empty outputs it too fabricates, in 8 of 8. gemma4 26B is not run under enforcement for hardware reasons.
+
+### 4.5 The Schema Outranks the Instruction
 
 We prepend a system instruction that forbids inferring sentiment and demands an explicit statement when no reaction data exists. In free text this instruction is effective, cutting fabrication from 39% to 4% in our earlier task framing. Under json_req (n=10 per model in the instruction arm) it does nothing for GPT (100% before, 100% after), llama3.1 8B, gemma4 e4B, or gemma4 26B. It rescues phi-4 completely (100% to 0%, all-null JSON) and Opus holds at 0% regardless. The practical reading is uncomfortable: prompt-level guardrails and format constraints are configured by different teams, and the format wins.
 
-### 4.5 Resistance Is Trained, Not Emergent
+### 4.6 Resistance Is Trained, Not Emergent
 
 The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly. Sonnet, larger and newer, fills them, fabricating in 90% of trials, with or without the escape hatch present. Opus refuses 39 of 53 and fabricates in 15%. Escape utilization separates them cleanly: Sonnet 10%, Haiku 42%, Opus 91%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98% before any schema appears, Haiku at 55%, Opus at 0%. Whatever produces coercion resistance, it is not parameter count, and it is not recency. It is a property a lab trains in or does not, and at present no public number tells you which. CFR and EUR are that number.
 
-### 4.6 Domain 2: The Customer Who Never Spoke
+### 4.7 Domain 2: The Customer Who Never Spoke
 
 The support-ticket domain replicates the flip exactly for GPT-5.5: freetext 0%, json_esc 0%, json_req 100% on untranscribed tickets (n = 20 per cell). Field-level scoring localizes the failure. The required enum customer_sentiment is fabricated in 20 of 20 trials; the model reads "priority: high, prior contacts: 3" and reports the customer is "frustrated." The free-string representative_quote is fabricated in 0 of 20 trials; the model writes "no quote available" into the string. The array sits between, 3 of 20.
 
@@ -132,7 +138,7 @@ The control rules out blanket caution. With the transcript present, every model 
 
 **Finding 6: coercion resistance is domain-contingent.** Sonnet fabricates crowd sentiment in 90% of social-thread trials and refuses to fabricate a customer's words in 100% of ticket trials. Same model, same rung, same construction. One reading: safety training treats attributing words to an individual as a harm and characterizing a crowd as an aggregate inference, so the first trips a guardrail the second never touches. A caveat is owed: the ticket schema demands a verbatim quote, which makes the fabrication maximally salient; the social schema asks for themes, which feels like summary. Either way, the practical lesson stands. A model's measured honesty in one schema domain does not transfer to another, and CFR must be measured per domain.
 
-### 4.7 The Refusal Tax
+### 4.8 The Refusal Tax
 
 Honesty has an operational price. Haiku and Opus achieve their low CFR by violating the schema: prose where JSON was demanded, 40 of 40 and 39 of 53 trials respectively. A production parser sees that as a crash, not a conscience. Across the full matrix, exactly one configuration achieves 0% fabrication with 0% format violations: a frontier model with an escape-hatch schema. Every other configuration pays in fake data or in broken pipelines. This trade-off is invisible to every existing benchmark, because no existing benchmark puts honesty and format compliance in the same trial.
 
@@ -144,7 +150,7 @@ Honesty has an operational price. Haiku and Opus achieve their low CFR by violat
 
 **What should labs do?** Report CFR and EUR. The benchmark is deterministic, contamination-resistant by regeneration, and takes minutes to run. A model card that reports format-following without reporting coerced fabrication is reporting the safety of the easy case.
 
-**Limitations.** Our items are synthetic, by necessity: ground-truth absence requires constructed absence. The free-text rung depends on an LLM judge, though the headline metrics do not. Frontier models were reached through vendor CLIs, which may add system prompts we cannot see; any such prompt would dampen, not inflate, the measured flip. Two domains are tested; the construction generalizes to any field whose evidence can be withheld, and we expect medical records, code review, and incident reports to behave identically, but we have not yet shown it. English only.
+**Limitations.** Our items are synthetic, by necessity: ground-truth absence requires constructed absence. The free-text rung depends on an LLM judge, though the headline metrics do not. Frontier models were reached through vendor CLIs, which may add system prompts we cannot see; any such prompt would dampen, not inflate, the measured flip. For open models, decoder-enforced replication (Section 4.4) confirms the prompted numbers as a floor; raw-API replication for the frontier remains open and needs vendor keys. Two domains are tested; the construction generalizes to any field whose evidence can be withheld, and we expect medical records, code review, and incident reports to behave identically, but we have not yet shown it. English only.
 
 ## 6. Release
 
