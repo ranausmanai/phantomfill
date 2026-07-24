@@ -1,39 +1,38 @@
-# Launch checklist
+# Launch: exact steps, in order
 
-Everything here is copy-paste ready. Nothing has been sent or posted.
-Do them in this order — each one feeds the next.
+Paper is live: **arXiv:2607.20492** — https://arxiv.org/abs/2607.20492
 
-Total active time: about 90 minutes, spread over a week.
+Do these in order. Steps 1–3 are today. Steps 4–8 are the distribution, spread over
+a week. Nothing below has been sent or posted.
 
----
-
-## 0. Push the branch (2 min)
-
-```bash
-git push -u origin linter-and-scorer-fix
-```
-
-Then merge it to `main` — the arXiv package and the README both reference files
-that are on this branch.
+Where you see `[paste]`, the text under it is ready to copy verbatim.
 
 ---
 
-## 1. arXiv (20 min, do this first)
+# TODAY
 
-Everything else links here, so it has to exist first. You are already endorsed
-for cs.CL via arXiv:2606.00914, so there is no gate.
+## Step 1 — Replace the arXiv version (10 min) ⚠️ do this before promoting anything
 
-Go to https://arxiv.org/submit
+The live v1 is the uncorrected draft. It says the enforced-decoding escape was
+"taken in 0 of 200 trials." It was 12 of 200, and `enforce_main.jsonl` is public in
+your repo, so this is checkable by anyone in five minutes. Fix it before you send
+people to it.
 
-**Primary category:** `cs.CL`
-**Cross-list:** `cs.AI`, `cs.LG`
+Replacing a preprint the same week you post it is routine. Nobody is notified,
+nobody reads v1 once v2 exists, and the abstract page just shows "v2".
 
-**Title:**
-```
-PhantomFill: When the Form Demands an Answer, Language Models Invent One
-```
+1. Go to https://arxiv.org/login and log in.
+2. Go to your user page — the "My Articles" list at https://arxiv.org/user
+3. Find **2607.20492** and click the **replace** link (a pencil icon) next to it.
+4. Upload this file: **`phantomfill_arxiv_v2.tar.gz`** (in your repo root)
+5. On the metadata screen, replace the **abstract** field with the text below —
+   it now includes the enforced-decoding result, which is your strongest finding
+   and was missing from v1's abstract.
+6. In the **comments** field, put the repo link (this is what makes people click).
+7. Submit. It goes live at the next announcement (weekday evenings, US Eastern).
 
-**Abstract** (plain text, no LaTeX — paste exactly):
+**[paste] — abstract field:**
+
 ```
 Language models in production do not write prose. They fill forms: JSON fields,
 function arguments, extraction templates. We show that the form itself causes
@@ -51,13 +50,13 @@ The pattern holds with force. Required fields drive fabrication to 100% in ten o
 thirteen models. An explicit "insufficient evidence" option rescues only the
 frontier: all nine open-weight models ignore it. Under grammar-constrained
 decoding, where the escape token is guaranteed reachable by the sampler, five open
-models use it zero times out of 203 trials on the fields that carry the
-fabrication, while spending it freely on the one field where escaping concedes
-nothing. A direct instruction, do not infer sentiment, is overridden by the schema
-in four of six models. Resistance does not come with scale: within a single model
-family, the smallest model refuses, the mid-sized model fabricates, the largest
-refuses again. Honesty under format pressure is a training outcome that no one is
-measuring.
+models spend it zero times out of 203 trials on the three fields that carry the
+fabrication, and twelve times on the one field where escaping concedes nothing.
+They can emit the word. They decline to spend it where it costs them an answer. A
+direct instruction, do not infer sentiment, is overridden by the schema in four of
+six models. Resistance does not come with scale: within a single model family, the
+smallest model refuses, the mid-sized model fabricates, the largest refuses again.
+Honesty under format pressure is a training outcome that no one is measuring.
 
 The fabrication hides exactly where hedging is impossible: in required enums and
 minimum-count arrays, fields where no disclaimer fits. We release PhantomFill, a
@@ -66,21 +65,28 @@ Fabrication Rate and the Escape Utilization Rate. The fix we test is one line of
 schema. The failure we measure is everywhere.
 ```
 
-**Comments field** (this is what makes people click):
+**[paste] — comments field:**
+
 ```
-Benchmark, data, and a schema linter: https://github.com/ranausmanai/phantomfill
+Benchmark, 4,500+ raw model outputs, and a schema linter: https://github.com/ranausmanai/phantomfill
 ```
 
-**Timing:** submissions before 14:00 ET on a weekday announce the next weekday
-evening. Submit Monday or Tuesday so the announcement lands mid-week — that gives
-you a live arXiv link for the Wednesday/Thursday posts below.
+## Step 2 — Push the repo (2 min)
 
----
+```bash
+git push -u origin linter-and-scorer-fix
+```
 
-## 2. Ship the linter to PyPI (15 min)
+Then merge to `main` on GitHub. The README now points at the arXiv link and the
+linter, and the corrected data needs to be what people find.
 
-This is the piece that keeps working after the posts scroll away. A tool in
+## Step 3 — Put the linter on PyPI (15 min)
+
+This is the part that keeps working after every post has scrolled away. A tool in
 someone's CI is a durable reason for them to know your name.
+
+Make a free account at https://pypi.org/account/register, then create an API token
+under Account Settings → API tokens.
 
 ```bash
 python3 -m pip install --upgrade build twine
@@ -88,97 +94,127 @@ python3 -m build
 python3 -m twine upload dist/*
 ```
 
-You need a PyPI account and an API token (free, 2 minutes, pypi.org/account/register).
-Verify it worked:
+Username is `__token__`, password is the token (starts with `pypi-`).
+
+Verify:
 
 ```bash
 pip install phantomfill-lint && phantomfill-lint --help
 ```
 
-Then add a line at the top of the repo README:
-
-```markdown
-**Lint your own schemas:** `pip install phantomfill-lint`
-```
-
 ---
 
-## 3. Hacker News (5 min)
+# THIS WEEK — distribution
 
-Post Tuesday–Thursday, 8–10am ET. That is when HN traffic peaks.
+You have no audience. That's fine: none of these depend on one. They work by
+borrowing an audience that already exists, or by ranking on content alone.
 
-**Title** (keep it plain — HN punishes hype):
+Ordered by what I'd actually do first.
+
+## Step 4 — Hugging Face Daily Papers (5 min) ← best single channel for you
+
+Curated, high-traffic, and open to anyone submitting their own arXiv paper. No
+followers required.
+
+1. Log in at https://huggingface.co (free account).
+2. Go to https://huggingface.co/papers and click **Submit a paper**.
+3. Paste: `https://arxiv.org/abs/2607.20492`
+4. Add the summary below as the submission comment.
+
+Do this the morning after v2 announces, not before — you want the corrected
+version to be what people land on.
+
+**[paste]:**
+
 ```
-Show HN: A linter for LLM schemas that force the model to hallucinate
-```
+Same input, same question, only the output format changes. The inputs are built so
+the queried field cannot be answered, so scoring is done by code rather than by a
+judge.
 
-**URL:** the GitHub repo (not the arXiv link — repos do better on Show HN).
+GPT-5.5 says "there is no reply data" in 98% of free-text trials, and fabricates in
+40 of 40 when the answer must go in a required JSON enum. Ten of thirteen models
+hit 100%.
 
-**First comment**, post this yourself immediately after submitting:
+The result I did not expect: under grammar-constrained decoding, with
+"insufficient_evidence" a legal token in the sampler's grammar, five open models
+used it 0 times out of 203 trials on the three fields that constitute the
+fabrication — and 12 times on the one field where escaping still let them keep a
+full answer everywhere else. The escape is reachable and they use it. Just never
+where it costs them.
 
-```
-I spent a few weeks measuring something I kept hitting in production and couldn't
-find a number for: what a model does when your JSON schema has a required field
-and the input has no evidence for it.
-
-The setup is a controlled one. Same input, same question, only the output format
-changes. The inputs are built so the field cannot be answered — a post with
-engagement counts but zero reply text, a support ticket whose call was never
-transcribed. So any concrete value is a fabrication by construction, and scoring
-is done by code rather than by a judge.
-
-The result that made me keep going: GPT-5.5 asked in prose says "there is no reply
-data" in 98% of trials. Asked through a schema with a required sentiment enum, it
-fabricates in 40 of 40. Ten of the thirteen models I tested hit 100%.
-
-Two things I did not expect:
-
-- Adding "insufficient_evidence" to the enum fixes the frontier models and does
-  nothing for the open ones. All nine open-weight models fabricated anyway, at
-  60-100%.
-- I re-ran it under grammar-constrained decoding so the escape token was
-  guaranteed reachable by the sampler. Five open models used it zero times out of
-  203 trials on the three fields that constitute the fabrication — and twelve
-  times on the one field where escaping cost them nothing. They can emit the
-  token. They just won't spend it where it means conceding an answer.
-
-The linter is the practical half: it flags required enums, min-count arrays and
-booleans that have no way to express "not in the evidence". Zero dependencies,
-runs in CI, understands OpenAI and Anthropic tool definitions.
-
-    pip install phantomfill-lint
-    phantomfill-lint 'schemas/**/*.json'
-
-Paper, data (4,500+ trials) and generators are in the repo. Happy to be told the
-design is wrong somewhere — that would be useful to me.
+Benchmark, all 4,500+ raw outputs, and a linter that flags the dangerous fields in
+your own schemas: https://github.com/ranausmanai/phantomfill
 ```
 
-**If it gets traction, answer every comment for the first three hours.** That is
-the whole game on HN. The comments are where people decide whether you know what
-you're talking about, and that is what turns into interview requests.
+## Step 5 — Email the authors you cite (30 min) ← most underrated
 
----
+Researchers amplify work that extends theirs, because it makes their paper more
+important. These four all have real audiences and a direct interest in your result
+existing. This is the cheapest borrowed distribution available to you.
 
-## 4. r/LocalLLaMA (5 min, day after HN)
+Get each address from the first page of their paper PDF or their GitHub profile —
+don't guess.
 
-This subreddit is your best audience — the open-model result is directly about
-the models they run, and the grammar-constrained finding is about the stack they
-use daily (llama.cpp / Ollama / outlines grammars).
+| who | paper | your hook |
+|---|---|---|
+| Kirichenko et al. (Meta AI) | AbstentionBench | Your rung 1 replicates them; your rung 3 shows their conclusion is format-dependent |
+| Tam et al. | Let Me Speak Freely | You measured a format effect an order of magnitude bigger than theirs, on a different outcome variable |
+| Willard & Louf (dottxt) | Outlines | The enforced-decoding result is about their technique |
+| Wen et al. | Know Your Limits survey | A new abstention axis their taxonomy doesn't cover |
 
-**Title:**
+**[paste] — adapt the first paragraph per recipient:**
+
 ```
-I tested 13 models: every open model I tried fabricates ~100% of the time when the
-JSON schema has no "insufficient_evidence" option — including under grammar-
-constrained decoding
+Subject: Your AbstentionBench result appears to be format-dependent
+
+Hi [name],
+
+I read AbstentionBench closely while building on it, and I wanted to send you a
+result that I think sits directly on top of yours.
+
+I ran a controlled version of your question where the input and the question are
+held fixed and only the output format varies. Inputs are constructed so the queried
+field is unanswerable, so the headline scoring is deterministic rather than
+judge-based.
+
+At the free-text rung I reproduce your finding. At the required-JSON-field rung it
+inverts: GPT-5.5 goes from 2% fabrication in prose to 100% (40/40) on identical
+input. Ten of thirteen models reach 100%. The abstention behavior your benchmark
+measures appears to be gated by the output format, and every abstention benchmark
+I know of — including yours — elicits prose.
+
+I'm not claiming this undercuts your result. I think it extends it: it suggests the
+numbers in AbstentionBench are an upper bound on what a deployed system does, since
+deployment speaks JSON.
+
+Paper: https://arxiv.org/abs/2607.20492
+Data and benchmark: https://github.com/ranausmanai/phantomfill
+
+If you think the design is wrong somewhere I'd genuinely like to know — you've
+thought about this longer than I have.
+
+Rana Muhammad Usman
 ```
 
-**Body:**
+## Step 6 — Reddit (10 min, day after HF)
+
+Pure content ranking. Account age and karma barely matter; the table does.
+
+**r/LocalLLaMA** — the open-model result is about the models they run and the
+grammar-constrained result is about the stack they use daily.
+
+Title:
+```
+I tested 13 models: every open model fabricates ~100% of the time when the JSON schema has no "insufficient_evidence" option — including under grammar-constrained decoding
+```
+
+**[paste] — body:**
 
 ```
 Setup: same input, same question, only the output format changes. Inputs are built
-so the answer cannot exist (a post with engagement counts but no reply text). Any
-concrete value is a fabrication by construction, so scoring is deterministic — no
-LLM judge in the headline numbers.
+so the answer cannot exist (a post with engagement counts but no reply text), so
+any concrete value is a fabrication by construction and scoring is deterministic —
+no LLM judge in the headline numbers.
 
 Fabrication rate at the unanswerable level:
 
@@ -196,114 +232,149 @@ Fabrication rate at the unanswerable level:
 Frontier for comparison: GPT-5.5 goes 2% -> 0% -> 100%. Claude Opus 4.8 stays at
 0/9/13 but gets there by refusing to emit JSON at all in 39 of 53 trials.
 
-The part I think matters most here: I re-ran it with Ollama's `format` parameter,
-so the decoder grammar was constrained to the schema and a prose refusal was
-physically unreachable. In the condition where "insufficient_evidence" was a legal
-token in the enum, five open models emitted it 0 times out of 203 trials on
-sentiment, main_themes and representative_reaction — and 12 times on
-controversy_level, the one field where escaping still let them keep a full answer
-everywhere else. A typical output declares sentiment "positive", lists three
-themes, quotes a reaction nobody wrote, and then reports controversy as
-"insufficient_evidence".
+The part I think matters most here: I re-ran it with Ollama's `format` parameter, so
+the decoder grammar was constrained to the schema and a prose refusal was physically
+unreachable. In the condition where "insufficient_evidence" was a legal enum token,
+five open models emitted it 0 times out of 203 trials on sentiment, main_themes and
+representative_reaction — and 12 times on controversy_level, the one field where
+escaping still left them a full answer everywhere else. A typical output declares
+sentiment "positive", lists three themes, quotes a reaction nobody wrote, then
+reports controversy as "insufficient_evidence".
 
 So it isn't that the escape is hard to reach or easy to miss. It's reachable, they
-use it, and they only use it where it doesn't cost them.
+use it, and only where it doesn't cost them.
 
-Practical upshot if you run local models behind a JSON schema: adding a null or an
-"unknown" enum value is necessary but is not going to save you. Measure it for
+Practical upshot for anyone running local models behind a schema: adding a null or
+an "unknown" enum value is necessary and nowhere near sufficient. Measure it for
 your own model.
 
 Everything is MIT and runs locally against Ollama — generators, scorer, all 4,500+
 raw outputs. There's also a linter (`pip install phantomfill-lint`) that flags the
-dangerous fields in your own schemas.
+coercive fields in your own schemas.
 
-[repo link]
-[arXiv link]
+https://github.com/ranausmanai/phantomfill
+https://arxiv.org/abs/2607.20492
 ```
 
-**Note:** r/LocalLLaMA dislikes anything that reads like promotion. Lead with the
-table, keep the links at the bottom, and answer technical questions fast.
+Keep links at the bottom, lead with the table, and answer technical questions fast.
 
----
+**r/MachineLearning** — same day or next, use the `[R]` flair. Title:
+```
+[R] The output format causes the hallucination: 13 models, 2% fabrication in prose vs 100% under a required JSON field, same input
+```
+Reuse the HF summary from Step 4 as the body.
 
-## 5. GitHub issues on the libraries this is about (20 min, highest job-value)
+## Step 7 — GitHub issues (20 min) ← highest job value
 
-This is the highest-leverage thing in this document and the one most likely to
-turn into a job. These are small teams, the maintainers read every issue, and a
-well-made issue from someone who clearly did the work is functionally a job
-application in that world.
+Small teams, maintainers read every issue, and a good one from someone who
+obviously did the work functions as an application.
 
-Open one issue per project. Tailor the first line; the body is reusable.
+Open one each on: `dottxt-ai/outlines`, `567-labs/instructor`, `BoundaryML/baml`,
+`guidance-ai/guidance`, `pydantic/pydantic-ai`.
 
-**Targets, in priority order:**
-
-| project | why them |
-|---|---|
-| `dottxt-ai/outlines` | You cite them. The grammar-constrained result is *about* their technique. |
-| `567-labs/instructor` | Biggest structured-output user base in Python. |
-| `BoundaryML/baml` | Whole product is schema-driven LLM output; very responsive team. |
-| `guidance-ai/guidance` | Constrained generation, same core concern. |
-| `pydantic/pydantic-ai` | Newer, growing, schema-first. |
-
-**Issue title:**
+Title:
 ```
 Required enum fields with no "unknown" value coerce fabrication — measurement + linter
 ```
 
-**Issue body:**
+**[paste]:**
+
 ```
-Hi — I've been measuring a failure mode that sits right at the boundary of what
-this library does, and I think the data might be useful to you. Not a bug report;
-more a "here is a number for the thing everyone suspects."
+Hi — I've been measuring a failure mode that sits right at the boundary of what this
+library does, and I think the data might be useful to you. Not a bug report; more
+"here is a number for the thing everyone suspects."
 
-The short version: when a schema has a required field and the input contains no
-evidence for it, models that answer honestly in prose invent a value instead. I
-ran 13 models on inputs constructed so the field is unanswerable (so scoring is
-deterministic, not judge-based). Ten of thirteen fabricate in 100% of trials.
-GPT-5.5 goes from 2% fabrication in prose to 100% under a required-field schema on
-identical input.
+When a schema has a required field and the input contains no evidence for it, models
+that answer honestly in prose invent a value instead. I ran 13 models on inputs
+constructed so the field is unanswerable, so scoring is deterministic rather than
+judge-based. Ten of thirteen fabricate in 100% of trials. GPT-5.5 goes from 2% in
+prose to 100% under a required-field schema on identical input.
 
-The part that's specifically relevant to constrained generation: I re-ran it with
-decoder-level grammar constraints, in a condition where "insufficient_evidence"
-was a legal token in the enum. Across 203 trials, five open models emitted that
-token 0 times on the three fields that carry the fabrication — and 12 times on the
-one field where escaping didn't cost them an answer. The escape being reachable in
-the grammar is not sufficient.
+The part specifically relevant to constrained generation: I re-ran it with
+decoder-level grammar constraints, in a condition where "insufficient_evidence" was
+a legal token in the enum. Across 203 trials, five open models emitted that token 0
+times on the three fields that carry the fabrication — and 12 times on the one field
+where escaping didn't cost them an answer. The escape being reachable in the grammar
+is not sufficient.
 
-I'm not suggesting this is something the library does wrong — the constraint is
-doing exactly what it's asked. But it does mean a user who writes
+I'm not suggesting the library does anything wrong here; the constraint does exactly
+what it's asked. But it does mean a user who writes
 
     {"sentiment": {"enum": ["positive", "negative", "mixed"]}, "required": [...]}
 
 has written a schema that cannot represent "I don't know", and most users don't
-realize that's a decision they made.
+realize that was a decision.
 
 Two things that might be worth considering:
 
-1. A docs note in the structured-output section: if a field may be unanswerable
-   for some inputs, give it a null or an explicit unknown value.
+1. A docs note: if a field may be unanswerable for some inputs, give it a null or an
+   explicit unknown value.
 2. Optionally, a warning when a required enum has no abstention value. I wrote a
    standalone zero-dependency linter for exactly this check
    (`pip install phantomfill-lint`) — happy to contribute it as an integration, or
-   just leave it as a separate tool, whichever you prefer.
+   leave it separate, whichever you prefer.
 
-Paper, data (4,500+ raw outputs) and generators: [repo link]
+Paper: https://arxiv.org/abs/2607.20492
+Data (4,500+ raw outputs) and benchmark: https://github.com/ranausmanai/phantomfill
 
-Happy to run the benchmark against [project] specifically if that's interesting to
-you — it runs locally against Ollama, no API costs.
+Happy to run the benchmark against [project] specifically if that's useful — it runs
+locally against Ollama, no API cost.
 ```
 
-That last line is the one that opens doors. Make it true and be ready to do it.
+That last line is what opens the door. Be ready to actually do it.
+
+## Step 8 — Newsletters (20 min)
+
+These people need material every single week. A cold email with a real result is
+supply meeting demand, not spam. Use the contact or reply address listed on each
+newsletter — don't guess an address.
+
+Targets: Import AI, TLDR AI, AlphaSignal, Ben's Bites, Last Week in AI, The Neuron.
+
+**[paste]:**
+
+```
+Subject: 13-model measurement: JSON schemas cause hallucination, 2% -> 100%
+
+Hi [name],
+
+Short pitch, one result.
+
+I measured what a language model does when your output schema has a required field
+and the input has no evidence for it. Same input, same question, only the format
+changes; inputs constructed unanswerable so scoring is by code, not by a judge.
+
+GPT-5.5 answers honestly in prose 98% of the time and fabricates in 40 of 40 trials
+when the answer has to go in a required JSON enum. Ten of thirteen models hit 100%.
+Adding an "insufficient_evidence" option fixes the frontier models and does nothing
+for the open ones — under grammar-constrained decoding, with the escape token
+guaranteed reachable, five open models used it 0 times out of 203 on the fields that
+mattered, and 12 times on the one field where escaping cost them nothing.
+
+Relevant to your readers because almost every production LLM feature now runs
+through JSON mode or function calling, and the mitigation is one line of schema.
+
+https://arxiv.org/abs/2607.20492
+
+Free tool that flags the dangerous fields: pip install phantomfill-lint
+
+Happy to write it up short if that's easier for you.
+
+Rana Muhammad Usman
+```
 
 ---
 
-## 6. The job part — be direct about it (10 min)
+# THE JOB PART
 
-You want work. Nothing above says so, and nobody will guess.
+Nothing above says you're looking for work. Nobody will guess.
 
-**a) HN "Who wants to be hired?"** — posted on the first working day of each
-month by `whoishiring`. Post in that thread the same month your Show HN runs, so
-anyone who saw the project can connect the two.
+## Step 9 — HN "Who wants to be hired?"
+
+Posted by user `whoishiring` on the first working day of each month. Zero followers
+needed; people read the whole thread.
+
+**[paste]:**
 
 ```
 Location: [your city]
@@ -315,72 +386,69 @@ Résumé/CV: [link]
 Email: usmanashrafrana@gmail.com
 
 I build evaluations that find failure modes nobody has a number for yet. Most
-recent: PhantomFill, which measures how often a model fabricates when a JSON
-schema leaves it no way to say "I don't know" — 13 models, 4,500+ trials,
-deterministic scoring, and a linter that catches the dangerous schemas.
-[arXiv link] / [repo link]
+recent: PhantomFill (arXiv:2607.20492), which measures how often a model fabricates
+when a JSON schema leaves it no way to say "I don't know" — 13 models, 4,500+
+trials, deterministic scoring, plus a linter that catches the dangerous schemas
+(pip install phantomfill-lint).
 
-Previously: adversarial feeds steering LLM agent decisions [arXiv:2606.00914].
+Previously: adversarial feeds steering LLM agent decisions (arXiv:2606.00914).
 
-Looking for: evaluation, safety, or applied research work. Independent so far —
-both papers were done on a laptop with local models and no compute budget, which
-I mention because it's the constraint I'm used to designing around.
+Looking for evaluation, safety, or applied research work. Independent so far — both
+papers were done on a laptop with local models and no compute budget, which I
+mention because it's the constraint I'm used to designing around.
 ```
 
-That last sentence turns your biggest limitation into the thing that makes you
-interesting. Keep it.
+Keep that last sentence. It turns your biggest limitation into the most interesting
+thing about you.
 
-**b) Email the teams whose product this is about.** Small companies, real people,
-they answer. dottxt (Outlines), Boundary (BAML), and the Instructor maintainer are
-all reachable, and all three work on precisely this. Send after your GitHub issue
-gets a reply — reply first, email second, referencing the issue.
+## Step 10 — Direct emails, after Step 7 gets replies
 
-**c) Lab evaluation teams.** Short, no attachment, one link:
+dottxt (Outlines), Boundary (BAML), and the Instructor maintainer all work on
+exactly this problem and all are small enough to answer email. Reply to your GitHub
+issue first, then email referencing it.
+
+Also worth one email each to evaluation contacts at Anthropic, OpenAI, Google
+DeepMind, and the UK AI Security Institute (AISI publishes evaluation work and takes
+external submissions):
+
+**[paste]:**
 
 ```
 Subject: Coerced fabrication under required JSON fields — 13-model benchmark
 
 Hi,
 
-I've released a benchmark measuring something I couldn't find a number for:
-fabrication caused by output format rather than by missing knowledge. Same input,
-same question, only the schema changes. Inputs are constructed unanswerable, so
-scoring is deterministic.
+I've released a benchmark measuring fabrication caused by output format rather than
+by missing knowledge. Same input, same question, only the schema changes; inputs
+constructed unanswerable, so scoring is deterministic.
 
 The finding most relevant to model evaluation: within the Claude family, Haiku 4.5
-refuses the impossible schema in 40 of 40 trials, Sonnet 4.6 fabricates in 90%,
-and Opus 4.8 refuses in 39 of 53 — and Opus does something none of the others do,
-returning a machine-readable refusal object of its own design rather than prose or
-a guess. Parameter count and recency predict nothing. It looks like a training
-outcome, and as far as I can tell no public number tracks it.
+refuses the impossible schema in 40 of 40 trials and fabricates in none, Sonnet 4.6
+fabricates in 90%, and Opus 4.8 refuses in 39 of 53 — and Opus does something none
+of the others do, returning a machine-readable refusal object of its own design
+rather than prose or a guess. Parameter count and recency predict nothing. It looks
+like a training outcome, and as far as I can tell no public number tracks it.
 
-Paper and data: [arXiv link]
-Benchmark and linter: [repo link]
+Paper: https://arxiv.org/abs/2607.20492
+Benchmark and linter: https://github.com/ranausmanai/phantomfill
 
 It runs locally and takes minutes. If a CFR/EUR number would be useful for model
-cards I'd be glad to help set it up.
+cards, I'd be glad to help set it up.
 
 Rana Muhammad Usman
 ```
 
-Send to evaluation/alignment contacts at Anthropic, OpenAI and Google DeepMind,
-and to the UK AI Security Institute — AISI publishes evaluation work and takes
-external submissions. One email each, no follow-up before two weeks.
-
-**d) HELM and lm-evaluation-harness.** Getting PhantomFill added as a scenario to
-either is the single biggest multiplier available to you, and it costs a PR rather
-than money. Do this after the linter is on PyPI.
+One email each. No follow-up before two weeks.
 
 ---
 
-## What to skip
+# Skip these
 
-- **Don't pay for API credits to redo the frontier runs.** It's a reviewer-comfort
-  fix, not a correctness fix, and your strongest result (enforced decoding) is
-  entirely local and free.
-- **Don't wait for a conference decision before doing any of the above.** The
-  practitioner channels are where this becomes useful to people, and they don't
-  care about acceptance.
-- **Don't submit to a main conference this month.** If you want a venue later,
-  TMLR takes rolling submissions with no deadline and suits a measurement paper.
-  It'll still be there when you have energy.
+- **Twitter/LinkedIn as a primary channel.** Follower-gated; you'd be shouting into
+  a void. Post there once for the record, expect nothing, move on.
+- **Paying for API credits.** Your strongest result is the enforced-decoding one and
+  it's entirely local and free.
+- **Waiting on a conference.** If you want a venue later, TMLR takes rolling
+  submissions with no deadline and suits a measurement paper. It'll still be there.
+- **Hacker News as your opening move.** Median Show HN gets under 10 points. Do it
+  after HF and Reddit, when you have something to point at.
