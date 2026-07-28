@@ -1,184 +1,242 @@
-# Long-Term Future Fund — application draft
+# LTFF application — field by field
 
-Apply at: https://funds.effectivealtruism.org/funds/far-future (Long-Term Future Fund).
-Also submit the same text to Manifund (https://manifund.org) — it is a separate pool,
-applications are public, and running both is normal and expected.
+Form: https://funds.effectivealtruism.org (Long-Term Future Fund)
 
-Anything in `[BRACKETS]` is a fact I don't have. Everything else is written.
+Their guidance: total 2,000–5,000 characters, 1–2 hours. This is written to that.
+**Leave fields blank rather than writing "N/A"** — they say it creates manual work.
+
+`[FILL]` marks the few things only you know.
 
 ---
 
-## Project title
+## Select funds
+
+**Fund:** Long-Term Future Fund
+**Secondary fund (EAIF transfer):** Yes
+**Funding from Open Philanthropy:** select whichever is true — almost certainly "I have not received funding from Open Philanthropy"
+
+## Basic information
+
+**Name:** `Rana Muhammad Usman`
+**Organization name:** *leave empty*
+**Grant Program:** **Long-Term Risk Research Grants**
+**Main collaborators:** *leave empty* (form says to leave blank if working independently)
+**Email address:** `usmanashrafrana@gmail.com`
+**Additional email addresses:** *leave empty*
+**Employed by Effective Ventures:** `I have not previously held any paid position at Effective Ventures or any of its projects.`
+
+---
+
+## Short description — 100/120 characters
 
 ```
-Measuring coerced fabrication: honesty failures caused by output format, not by missing knowledge
+6-month stipend to extend PhantomFill, a benchmark measuring LLM fabrication caused by output format
 ```
 
-## Amount requested
+## Summary — 998/1000 characters
 
 ```
-$42,000 USD for 6 months
+LLMs that honestly answer "there is no evidence for that" in prose invent one when the same question arrives as a JSON schema with a required field. Across 13 models, required fields drive fabrication to 100% in ten. Under grammar-constrained decoding, with the escape token guaranteed reachable by the sampler, five open models used it 0 times out of 200 on the fields carrying the fabrication, and 12 times on the one field where escaping conceded nothing. Paper: arXiv:2607.20492, under review at TMLR.
+
+Honesty evaluations elicit prose; deployed systems and agents emit structured output. If honesty is format-dependent, published evaluations overstate deployed honesty, and no one measures the deployed case.
+
+I did this unfunded on a laptop with local models, forcing two limitations money fixes: frontier models reached via vendor CLIs not APIs, and only two domains. I request 6 months to close both, add three high-stakes domains, and get these metrics into HELM and lm-evaluation-harness.
 ```
 
-## Summary (what LTFF shows reviewers first)
+## Project goals
 
 ```
-Language models that correctly answer "there is no evidence for that" in prose will
-invent an answer when the same question is asked through a JSON schema with a required
-field. I measured this across thirteen models and found it drives fabrication to 100% in
-ten of them. The paper is on arXiv (2607.20492) and under review at TMLR.
+Concrete steps, in order:
 
-I did that work unfunded, on a laptop, using local models, which forced two limitations I
-cannot fix without money: frontier models were reached through vendor CLIs rather than
-APIs, and I could only build two evaluation domains. This grant funds six months to close
-both gaps, extend the benchmark to four domains including high-stakes ones (clinical
-notes, incident reports), and land it in the evaluation harnesses labs actually run
-(HELM, lm-evaluation-harness) so the number gets reported rather than just published.
+1. Replace CLI-mediated frontier measurements with direct API runs (month 1). The current
+frontier numbers came through vendor CLIs, which inject system prompts and scaffolding no
+API user has. This is the most attackable weakness in the work and it is purely a cost
+problem: roughly 25,000 API calls.
 
-The concrete output is a maintained benchmark with two reportable metrics that no model
-card currently includes, plus the tooling for others to run it on their own systems.
+2. Extend from two domains to five (months 2-3): clinical-note summarization, incident
+reports, and code review. Each is a real deployment of structured extraction where a
+fabricated required field propagates into a decision. My existing result shows resistance
+does not transfer across domains, so per-domain measurement is necessary, not redundant.
+
+3. Test mitigations (month 4): whether the "structured refusal" behavior I observed in one
+frontier model can be elicited by schema design, and whether constrained-decoding libraries
+can warn at schema-compile time.
+
+4. Ship it where it gets used (months 5-6): integrate as a scenario in HELM and
+lm-evaluation-harness, and maintain the linter I already released.
+
+Success criteria, checkable by you: five domains published with API-based frontier numbers;
+at least one of HELM or lm-evaluation-harness merges the scenario; the linter has external
+users.
+
+Path to impact and fit with the fund: as LLMs are deployed as agents acting through
+structured interfaces, a model's ability to report "I don't know" inside its output format
+becomes a load-bearing safety property. Honesty evaluations today measure the prose case
+only. If the format gates the honesty, the field is measuring the wrong configuration and
+reporting numbers that are too optimistic. My contribution is a deterministic, cheap
+measurement of the deployed case, plus the plumbing to make it routinely reported.
+
+I want to be honest about scope: this is evaluation infrastructure, not alignment theory.
+It reduces risk by making a specific honesty failure visible and measurable before agentic
+deployments scale, not by solving anything fundamental.
 ```
 
-## The problem this addresses
+## Track record
 
 ```
-Abstention benchmarks measure whether a model will say "I don't know." Every one of them
-asks the model in prose. Deployed systems do not use prose: they use JSON mode, function
-calling, and extraction schemas. My results show the gap between those two settings is
-not a matter of degree. GPT-5.5 answers honestly in 98% of free-text trials and fabricates
-in 40 out of 40 when the same answer must go into a required enum.
-
-That means published safety evaluations systematically overstate the honesty of deployed
-systems, and the error is invisible because nobody measures the deployed configuration.
-
-The failure also has a specific shape that makes it dangerous. It concentrates in fields
-where hedging is impossible — required enums, minimum-count arrays, booleans — and those
-are exactly the fields that downstream code branches on. A free-text hallucination gets
-read by a human who might notice. A fabricated enum value gets read by a switch statement.
-
-I also found the failure is not a capability limit. Under grammar-constrained decoding,
-with "insufficient_evidence" guaranteed reachable in the sampler's grammar, five open
-models emitted it zero times out of 200 trials on the three fields that carried the
-fabrication — and twelve times on the one field where escaping conceded nothing. The
-models can produce the token. They decline to spend it where it costs them an answer.
-That is a trained behavior, and it differs across models from the same lab, which means
-it is trainable and currently untracked.
-```
-
-## What I will do with the funding
-
-```
-1. Replace CLI-mediated frontier measurements with direct API runs (month 1).
-   The current frontier numbers were collected through vendor CLIs, which inject system
-   prompts and agentic scaffolding that no API user has. This is the single most
-   attackable methodological weakness in the paper and it is purely a cost problem.
-   Estimated 15,000-25,000 API calls across GPT-5.5, Claude Opus/Sonnet/Haiku, and Gemini.
-
-2. Extend from two domains to five (months 2-3).
-   Current domains are social threads and support tickets. I will add clinical-note
-   summarization, incident/postmortem reports, and code review — chosen because each is a
-   real deployment of structured extraction where a fabricated required field propagates
-   into a decision. My existing result shows resistance does not transfer across domains,
-   so per-domain measurement is necessary rather than redundant.
-
-3. Test mitigations properly (month 4).
-   I have shown that adding an escape value fixes frontier models and fails for open
-   models. What I have not tested: whether fine-tuning on structured refusals transfers,
-   whether the "structured refusal" behavior I observed in one frontier model can be
-   elicited by prompt or schema design, and whether constrained-decoding libraries can
-   surface a warning at schema-compile time.
-
-4. Ship it where it gets used (months 5-6).
-   Integrate PhantomFill as a scenario in HELM and lm-evaluation-harness, maintain the
-   linter (already released), and write the CFR/EUR reporting format up as something a
-   model card can adopt. A benchmark nobody runs is a paper. A benchmark in the harness
-   is a number that shows up in every evaluation report.
-```
-
-## Why me
-
-```
-I am an independent researcher with no institutional affiliation and no funding to date.
-Two arXiv preprints, both done alone:
+Two arXiv preprints, both done alone and unfunded:
 
 - PhantomFill: When the Form Demands an Answer, Language Models Invent One
-  (arXiv:2607.20492, under review at TMLR). Thirteen models, 4,500+ trials, deterministic
-  scoring, all raw outputs released.
+  (arXiv:2607.20492). 13 models, 4,500+ trials, deterministic scoring, all raw outputs
+  released. Under review at TMLR.
 - Adversarial Feeds Steer LLM Agent Decisions Against Their Defaults (arXiv:2606.00914).
 
-I also shipped phantomfill-lint, a zero-dependency tool that flags the schema fields that
-cause this failure, so the finding is actionable rather than only documented.
+I also released phantomfill-lint, a zero-dependency tool that flags the schema fields
+causing this failure, so the result is actionable rather than only documented.
 
-The relevant signal is the constraint I worked under. Both papers were produced on a
-laptop running local models, with no compute budget, no API credits, and no collaborators.
-That forced a design discipline I would not otherwise have learned: because I could not
-afford a judge model at scale, I built inputs where the ground truth is absence, which
-made the headline metric deterministic and removed the judge-reliability argument that
-most hallucination benchmarks get stuck in. The methodological strength of the work came
-directly from having no money.
+Expenditure and staffing to date: $0 funding, 1 FTE (myself, unpaid), all compute local.
 
-I would rather not keep working this way, which is why I am applying.
+The relevant signal is the constraint. Both papers were produced on a laptop running local
+models with no compute budget and no collaborators. That forced a design discipline I would
+not otherwise have found: unable to afford a judge model at scale, I built inputs where the
+ground truth is absence, which made the headline metric deterministic and removed the
+judge-reliability dispute that most hallucination benchmarks get stuck in. The
+methodological strength came directly from having no money.
 
-[BRACKETS: add 2-3 sentences on your background — degree, prior employment, relevant
-engineering experience. Be plain about the gap if there is one; LTFF funds independent
-people and does not require a PhD.]
+Honest weaknesses: I have no institutional affiliation, no formal research training [FILL:
+adjust if you have a relevant degree], and no prior funded projects. My work has not yet
+been peer-reviewed — TMLR is my first submission. I have not previously managed a budget or
+a multi-month funded project.
+
+[FILL: 2-3 sentences on your education and any prior professional/engineering work. Be
+plain about gaps. LTFF funds independent people without PhDs regularly.]
 ```
 
-## Budget
+## Public Portfolio
 
 ```
-Living stipend, 6 months                                        $30,000
-API credits (frontier model runs, ~25k calls with retries)       $4,500
-Compute (rented GPU hours for larger open models, ~200 hrs)      $3,500
-Annotation (human validation of new domains, ~120 hrs)           $3,000
-Miscellaneous (storage, tooling, conference registration)        $1,000
-                                                                --------
-Total                                                           $42,000
-
-[BRACKETS: adjust the stipend to your actual cost of living in your country. LTFF funds
-researchers globally and does not expect a Bay Area number. If $30k is more than you need
-for six months, lower it — a realistic, well-justified ask is stronger than a large one.]
+Paper:  https://arxiv.org/abs/2607.20492
+Prior:  https://arxiv.org/abs/2606.00914
+Code, data, and benchmark:  https://github.com/ranausmanai/phantomfill
+Tool:   pip install phantomfill-lint
 ```
 
-## Track record of output
+## Funding amount and breakdown
+
+Copy their template: https://docs.google.com/spreadsheets/d/1lhzs0iqxq3Ik1ocab5cOOMXjN6S2R7zauHKWY8vF7iE/copy
+Fill the lines below, set sharing to **"Anyone with the link can view"**, paste the link.
+
+| line item | USD |
+|---|---|
+| Stipend, 6 months (gross, inclusive of income and self-employment tax) | 27,000 |
+| API credits (~25,000 frontier calls incl. retries) | 4,500 |
+| Rented GPU compute (~200 hrs, larger open models) | 3,000 |
+| Annotation contractor (~120 hrs, validating new domains) | 2,500 |
+| Software, storage, miscellaneous | 800 |
+| **Subtotal** | **37,800** |
+| Buffer (10%, stated explicitly per your guidance) | 3,780 |
+| **Total** | **41,580** |
+
+Text box:
 
 ```
-Both preprints were completed and released within [BRACKETS: N] months of starting, alone,
-without funding. Code and complete raw data for both are public under MIT.
+Total requested: $41,580 over 6 months. Breakdown: 65% stipend (gross, tax included), 11%
+API credits, 7% rented GPU compute, 6% annotation contractor, 2% software and storage, 9%
+buffer.
 
-Verification for reviewers:
-  Paper:     https://arxiv.org/abs/2607.20492
-  Code/data: https://github.com/ranausmanai/phantomfill
-  Tool:      pip install phantomfill-lint
+Minimum viable scenario: $24,000. This covers the API reruns and three domains rather than
+five, at a reduced stipend. The frontier API runs are the single highest-value item and
+would be done first under any scenario.
+
+Note: my stipend figure reflects cost of living in [FILL: your city/country], not a US or
+UK rate.
 ```
 
-## What happens if you don't fund this
+> **[FILL] — set the stipend to your real six-month cost of living.** LTFF funds people
+> globally and does not expect a Bay Area number. A lower, honestly justified figure is more
+> likely to be funded than a padded one, and their own guidance asks for the minimum
+> necessary. Adjust the buffer and total to match.
+
+**Requested amount (USD):** `41580` (or your adjusted total)
+**Organizational budget:** *leave empty*
+
+## Alternatives to funding
 
 ```
-The benchmark stays as published: correct, but limited to two domains with frontier
-numbers collected through an imperfect access path. I will keep maintaining it in whatever
-time I have, but the API reruns and the high-stakes domains do not happen, and neither
-does the harness integration, which is the part that determines whether anyone reports
-these numbers.
+If not funded, the project continues but shrinks. I would keep maintaining the benchmark
+and the linter in whatever time I have while looking for employment, but the API reruns,
+the three additional domains, and the harness integration would not happen. The frontier
+numbers would stay CLI-mediated, which is the limitation most likely to keep the work from
+being taken seriously.
+
+Other applications: I am also applying to Manifund for the same project [FILL: adjust or
+remove if you have not]. No funding applications in the last 12 months, none successful,
+none pending elsewhere. No conditional offers.
+
+I am currently unemployed and this grant would be my primary source of income.
 ```
+
+## Use for additional funding
+
+```
+Extend the runway rather than the scope. A 12-month rather than 6-month grant would let me
+add non-English domains, test whether fine-tuning on structured refusals transfers across
+schema types, and run the benchmark against agentic tool-calling loops rather than single
+extraction calls, which is where the failure actually bites in deployment.
+
+Beyond that, funding a second person part-time for annotation and replication would let me
+validate the new domains against human labels rather than my own.
+```
+
+## Remaining fields
+
+| field | answer |
+|---|---|
+| Confidential information | Put anything about your financial situation here if you'd rather it not be shared with informal advisors. Otherwise leave empty. |
+| LinkedIn/CV | `https://github.com/ranausmanai` + your arXiv author page. [FILL: add LinkedIn if you have one] |
+| File upload | skip |
+| Start date | today's date |
+| End date | today + 6 months |
+| Requested currency | USD |
+| Location | `[FILL: your city, country]. Project implemented remotely; outputs are public.` |
+| Activities in China or India? | `[FILL: No, unless you are in India]` |
+| Award for past achievement? | No |
+| Anyone under 18 contributing? | No |
+| Safeguarding measures | *leave empty* |
+| Lobbying or political activity? | No |
+| References | *leave empty unless you have someone* — see note below |
+| Organisational leadership | *leave empty* |
+| Referral to other funders | **Yes** |
+| How did you hear about EA Funds | `[FILL: honestly — e.g. "searching for funding for independent AI safety research"]` |
+| Time-sensitive (decision under 8 weeks)? | **Yes** — reason: `I am currently unemployed with no income; this grant would be my primary source of support.` |
+| Public reporting | **Public** |
+| Network sharing | **Yes** |
+| Anything else | *leave empty* |
 
 ---
 
-## Also apply here, same text
+## Three decisions I made for you, and why
 
-- **Manifund** (https://manifund.org) — public applications, faster, smaller amounts.
-  Regranters can fund you directly. Low effort given you already have this text.
-- **Open Philanthropy** — check current early-career and AI-safety RFPs at
-  openphilanthropy.org/research-and-grants. Larger, slower, more competitive.
-- **AI Safety Camp / MATS** — programs rather than grants, but they pay a stipend and give
-  you a mentor and collaborators, which is the other thing you're missing.
+**Long-Term Risk Research Grants, not Applied GCR.** Your primary output is new knowledge
+— a measurement nobody has. The tool and harness integration are delivery mechanisms, not
+the point.
 
-## Two notes on how to write this
+**Network sharing: Yes.** That field explicitly offers job opportunities, career advice, and
+mentorship. You want a job. It costs nothing and does not affect your grant odds. This is
+the single highest-value checkbox on the form for your situation.
 
-Do not undersell the no-funding constraint. Reviewers at these funds are explicitly
-looking for people who produce results without institutional support, because that is the
-strongest available signal of what they would do with support. It is the best part of your
-application. It stays in.
+**Public reporting: Public.** It slightly improves funding odds, and a public LTFF payout
+report is a credential and a visibility channel — exactly what you've been trying to build.
 
-Do not inflate the ask. $42k with a line-item budget reads as competent. $150k with a
-vague justification reads as someone who has not thought about it.
+## On references
+
+You have none in this community, and that's fine — leave it empty rather than padding it.
+If the AbstentionBench or Outlines emails from LAUNCH.md get a substantive reply before you
+submit, that person becomes a legitimate reference. Worth sending those first if you can
+stand to wait a few days.
+
+## Then do Manifund
+
+Same text, much shorter form, separate money, public applications:
+https://manifund.org. Mention in "Alternatives to funding" that you applied to both,
+which their guidance explicitly asks for.
