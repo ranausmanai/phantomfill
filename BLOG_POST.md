@@ -2,6 +2,8 @@
 
 *Same input. Same question. Change only the output format, and an honest model becomes a fabricating one.*
 
+![The schema flip: GPT-5.5 is honest until the format removes the option](https://raw.githubusercontent.com/ranausmanai/phantomfill/main/v2_fig2_flip.png)
+
 ---
 
 Ask a language model a question it can't answer, and it will usually tell you so. This is trained behavior, and the industry measures it — there are benchmarks scoring models on their willingness to say "I don't know."
@@ -38,18 +40,9 @@ The same model, same input, asked through the required-field schema, fabricates 
 
 There are no replies.
 
-| model | free text | JSON + escape | JSON required |
-|---|---|---|---|
-| Qwen 0.8B | 98 | 100 | 100 |
-| Llama 3B | 100 | 100 | 100 |
-| Gemma e4B | 65 | 92 | 100 |
-| Mistral 7B | 82 | 100 | 100 |
-| Llama 8B | 95 | 100 | 100 |
-| Phi-4 14B | 92 | 98 | 100 |
-| Gemma 26B | 88 | 60 | 100 |
-| GPT-5.5 | 2 | 0 | **100** |
+Here is every model I tested:
 
-*(fabrication rate, %, on the unanswerable input)*
+![Fabrication rate when the fields are unanswerable, thirteen models across three output formats](https://raw.githubusercontent.com/ranausmanai/phantomfill/main/v2_fig1_matrix.png)
 
 The right-hand column is nearly solid. The models that avoid it don't comply more honestly — they **refuse the format entirely**, returning prose where JSON was demanded. Which is honest, and which your parser sees as a crash.
 
@@ -110,7 +103,11 @@ When the two conflict, the hard constraint wins — unless someone explicitly an
 
 **Put an escape value in every required enum.** It's one line and it fixes the frontier models. It is necessary and it is not sufficient.
 
-**Watch the field types.** Fabrication concentrates where hedging is impossible. In one test, GPT-5.5 fabricated a required sentiment enum 20 out of 20 times, and invented a customer quote 0 out of 20 — it wrote "no quote available" into the string instead. **A string can carry a disclaimer. An enum can't.** Required closed-vocabulary fields, minimum-count arrays, and non-nullable booleans are where this lives.
+**Watch the field types.** Fabrication concentrates where hedging is impossible. In a second domain — support tickets whose call was never transcribed — GPT-5.5 fabricated the required sentiment enum 20 out of 20 times, and invented a customer quote 0 out of 20. It wrote "no quote available" into the string instead.
+
+![Fabrication hides where no hedge fits: a string can carry a disclaimer, an enum cannot](https://raw.githubusercontent.com/ranausmanai/phantomfill/main/v2_fig5_fields.png)
+
+**A string can carry a disclaimer. An enum can't.** Required closed-vocabulary fields, minimum-count arrays, and non-nullable booleans are where this lives.
 
 **Treat schema design as safety configuration.** It's usually written by whoever wrote the API contract, and reviewed by nobody who thinks about hallucination.
 
