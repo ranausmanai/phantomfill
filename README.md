@@ -7,7 +7,10 @@ PhantomFill is a benchmark for **schema-coerced fabrication**: the failure mode 
 > Same input. Same question. Only the output format changes.
 > GPT-5.5 fabricates public opinion in **2%** of free-text answers, **0%** with an escape-hatch schema, and **100%** (40/40) with a required-field schema.
 
-Paper: [arXiv:2607.20492](https://arxiv.org/abs/2607.20492) · [`paper/main.pdf`](paper/main.pdf)
+Paper: [arXiv:2607.20492](https://arxiv.org/abs/2607.20492) · [`paper/main.pdf`](paper/main.pdf) · Accepted at the AIMS workshop, COLM 2026
+
+[![PyPI](https://img.shields.io/pypi/v/phantomfill-lint)](https://pypi.org/project/phantomfill-lint/)
+
 Lint your own schemas: `pip install phantomfill-lint`
 
 <p align="center"><img src="v2_fig1_matrix.png" width="600"></p>
