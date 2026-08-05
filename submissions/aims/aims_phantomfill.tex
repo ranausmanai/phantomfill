@@ -1,5 +1,6 @@
 \documentclass{article}
-\usepackage[submission]{colm2026_conference}
+\usepackage[final]{colm2026_conference}
+
 
 \usepackage{microtype}
 \usepackage{hyperref}
@@ -12,7 +13,13 @@
 
 \title{PhantomFill: When the Form Demands an Answer,\\Language Models Invent One}
 
-\author{Anonymous authors}
+\author{Rana Muhammad Usman \\
+Independent Researcher \\
+\texttt{ranausman@outlook.com} \\
+\And
+Dominic Williamson \\
+Codarossa \\
+\texttt{dominic@codarossa.ai}}
 
 \newcommand{\pf}{PhantomFill}
 \newcommand{\cfr}{CFR}
@@ -21,6 +28,9 @@
 \begin{document}
 
 \maketitle
+% [final] de-anonymizes, but its header claims main-conference acceptance.
+% This is a workshop paper; \@maketitle sets \lhead, so override after it.
+\lhead{Accepted at the AI Measurement Science (AIMS) workshop, COLM 2026}
 
 \begin{center}
 \begin{minipage}{0.8\linewidth}
