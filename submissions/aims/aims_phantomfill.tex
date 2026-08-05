@@ -1,0 +1,291 @@
+\documentclass{article}
+\usepackage[submission]{colm2026_conference}
+
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\definecolor{darkblue}{rgb}{0, 0, 0.5}
+\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
+
+\title{PhantomFill: When the Form Demands an Answer,\\Language Models Invent One}
+
+\author{Anonymous authors}
+
+\newcommand{\pf}{PhantomFill}
+\newcommand{\cfr}{CFR}
+\newcommand{\eur}{EUR}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\centering\itshape
+``Whereof one cannot speak, thereof one must be silent.''\\[2pt]
+{\upshape\footnotesize Ludwig Wittgenstein, \emph{Tractatus Logico-Philosophicus} (1921)}
+\end{minipage}
+\end{center}
+\vspace{6pt}
+
+\begin{abstract}
+Language models in production do not write prose. They fill forms: JSON fields, function arguments, extraction templates. We show that the form itself causes hallucination. We ask thirteen models the same question about the same input and change only the answer format across three rungs of an \emph{abstention-affordance ladder}: free prose, a JSON schema with an explicit escape value, and a JSON schema with required fields. The inputs are constructed so the queried fields are unanswerable \emph{by construction}, which makes the headline scoring deterministic: no LLM judge decides what counts as fabrication. In free text, GPT-5.5 correctly reports that the evidence is missing in 98\% of trials; under a required-field schema, the same model fabricates in 100\% of trials (40 of 40). Required fields drive fabrication to 100\% in ten of thirteen models. An explicit ``insufficient evidence'' option rescues only the frontier: all nine open-weight models ignore it. An anti-fabrication system instruction is overridden by the schema in four of six models. Within a single model family, the smallest model refuses impossible schemas, the mid-sized model fabricates at 90\%, and the largest emits a machine-readable refusal object of its own design, indicating that resistance to format pressure is a training outcome rather than a scale effect, and one that no current benchmark measures. We release \pf{}, a contamination-resistant benchmark with two reportable metrics: the Coerced Fabrication Rate and the Escape Utilization Rate.
+\end{abstract}
+
+\section{Introduction}
+
+Ask a language model a question it cannot answer and it will often tell you so. This is a trained behavior, and the field measures it: abstention benchmarks score models on their willingness to decline \citep{abstentionbench, knowyourlimits}. Those benchmarks share an assumption so natural it is invisible: they let the model answer in prose.
+
+Deployed models rarely answer in prose. They answer in structure: JSON mode, function calling, extraction schemas, dashboard fields. The measurement question this paper raises is simple. When the honest answer is ``there is no evidence,'' and the output format has no field for that answer, what does the model do?
+
+It invents the evidence.
+
+We demonstrate this with a controlled design we call the \emph{Abstention-Affordance Ladder}. The input is fixed. The question is fixed. Only the output format changes, across three rungs: free prose, a JSON schema in which every field admits an escape value, and a JSON schema with required fields and no escape. The inputs are constructed so that the target fields are \emph{unanswerable by construction}: a social-media post arrives with engagement counts (12,400 likes, 870 replies) but no reply text; a support ticket arrives with rich metadata but an untranscribed call. Any concrete claim about what the crowd thinks, or what the customer said, is a fabrication. This property makes scoring deterministic. No judge decides what counts as hallucination; the construction does.
+
+The result is stark. GPT-5.5, asked in prose about the post with no visible replies, declines to characterize the reaction in 98\% of trials. Asked through a schema with a required sentiment field, it fabricates in 100\% of trials, 40 of 40. It reports that opinion is ``mixed'' and lists three themes the replies supposedly contain. The replies do not exist.
+
+We make four contributions relevant to measurement science:
+\begin{enumerate}
+\item \textbf{A causal measurement design.} The ladder isolates output format as a treatment variable for fabrication, where existing abstention work varies only the query \citep{abstentionbench} and existing format work measures only accuracy on answerable tasks \citep{letmespeak}.
+\item \textbf{Judge-free scoring.} Unanswerable-by-construction items convert hallucination measurement from a contested judging problem into a parsing problem, with control variants exposing over-refusal in the opposite direction.
+\item \textbf{Two reportable metrics.} The Coerced Fabrication Rate (\cfr{}) and the Escape Utilization Rate (\eur{}) quantify, respectively, whether a model fabricates when the format forbids abstention and whether it uses an escape when one is offered. The two dissociate sharply in practice.
+\item \textbf{Findings with measurement consequences.} Free-text safety evaluations systematically overstate deployed safety; prompt-level guardrails do not survive format constraints; and coercion resistance varies within a single model family, so it is a trainable property that current evaluations render invisible.
+\end{enumerate}
+
+\section{Related work}
+
+\textbf{Abstention.} AbstentionBench evaluates abstention over twenty datasets of unanswerable or underspecified questions \citep{abstentionbench}; a recent survey organizes the abstention literature by query, knowledge, and values \citep{knowyourlimits}; SQuAD~2.0 introduced unanswerable items for reading comprehension \citep{squad2}; R-Tuning trains refusal directly \citep{rtuning}. All of this work elicits free text. None varies the output format, which we show gates the very abstention being measured.
+
+\textbf{Format effects.} \citet{letmespeak} report that format restrictions degrade reasoning accuracy on answerable tasks. We measure a different outcome, fabrication on unanswerable fields, and find an effect far larger than accuracy degradation: a flip from 2\% to 100\%. Constrained decoding enforces schemas at the token level \citep{outlines}, so in production the conflict we measure is implemented in the serving stack itself.
+
+\textbf{Structured-output quality.} Benchmarks such as SOB \citep{sob} and LLMStructBench \citep{llmstructbench} score extraction accuracy on answerable fields. Practitioner reports note that forcing a field when data is missing causes hallucination; that observation has remained an anecdote. We make it the measured axis.
+
+\textbf{Hallucination.} Surveys cover factual and faithfulness hallucination broadly \citep{huang2023, ji2023, truthfulqa}. The fabrication of \emph{social} evidence, crowds and consensus that no one expressed, has not previously been measured under controlled evidence conditions; our Domain~1 provides that measurement, with implications for agentic moderation systems \citep{rana2026}.
+
+\section{The \pf{} design}
+
+\subsection{The Abstention-Affordance Ladder}
+Each item is presented at three rungs with the input document and question held constant:
+\begin{itemize}
+\item \textbf{Rung 1 (freetext).} A prose answer of two to four sentences. Abstention fully available.
+\item \textbf{Rung 2 (json\_esc).} A JSON schema in which every field admits an escape: \texttt{insufficient\_evidence} for enums, \texttt{null} for strings and arrays. Abstention available but must be chosen.
+\item \textbf{Rung 3 (json\_req).} A JSON schema with required fields: a closed-vocabulary sentiment enum, an array with a minimum count, a required representative quote. Abstention has no slot.
+\end{itemize}
+Any change in fabrication between rungs is attributable to the format, because nothing else differs.
+
+\subsection{Unanswerable by construction}
+\textbf{Domain 1: social threads.} Forty base posts across health, urban policy, finance, parenting, and consumer products, each instantiated at five evidence levels. The ladder uses E3 (post plus engagement counts, no reply text), where any claim about what people are saying or feeling is fabricated by construction, and E2c (three same-direction replies genuinely supporting a consensus reading), a control on which concrete answers are correct and over-escaping is exposed. Both error directions are visible.
+
+\textbf{Domain 2: support tickets.} Twenty tickets with realistic metadata (channel, call length, prior contacts, priority). In the D\_absent variant the message body reads ``call audio not transcribed.'' The schema demands \texttt{customer\_sentiment}, \texttt{main\_complaints}, and \texttt{representative\_quote}: a verbatim quote from a call no one transcribed. The D\_present variant includes the transcript and serves as the control.
+
+Items are generated from seed templates; regenerating the item set defeats contamination, a property we consider essential for a benchmark whose headline cells sit at 0\% and 100\%.
+
+\subsection{Metrics and scoring}
+\textbf{\cfr{}} (Coerced Fabrication Rate): the fraction of rung-3 outputs asserting concrete values for unanswerable fields. \textbf{\eur{}} (Escape Utilization Rate): one minus the fabrication rate at rung 2. \textbf{Format-violation rate}: outputs that break the schema rather than fill it; honest, but operationally a parser failure, a cost we call the refusal tax. All three are computed by code: parse the JSON, compare fields against the escape vocabulary. Rung-1 prose is scored by an LLM judge with a tight fabrication-only rubric, validated three ways: the consensus control level (judge false-positive rate $\approx$0\% after rubric tightening; an earlier looser rubric scored 48\% on the control, which the control exposed); a cross-family second judge (93\% agreement, Cohen's $\kappa = 0.61$); and a frontier gold judge (93\% agreement).
+
+\textbf{What \pf{} is.} The artifact is five things together, not the metrics alone: (i) seed-template generators for two domains that regenerate the item set on demand, which is what makes it contamination-resistant; (ii) the format protocol of rungs 1--4; (iii) evidence levels within each domain, including an unanswerable level and a present-evidence control; (iv) the deterministic scorer; and (v) the two reported quantities \cfr{} and \eur{}. The metrics are defined relative to items whose ground truth is absence, and that construction is what lets them be computed without a judge.
+
+\subsection{Models}
+Nine open-weight models across five families (qwen3.5 0.8B/2B, llama3.2 3B, llama3.1 8B, gemma4 e4B/26B, mistral 7B, qwen2.5 7B, phi-4 14B) run locally, and four frontier models through vendor CLIs: GPT-5.5 (reasoning effort high) and Claude Haiku 4.5, Sonnet 4.6, Opus 4.8.
+
+\section{Results}
+
+\textbf{Is fabrication forced?} A required field admits no legal value for absent evidence, so it is fair to ask whether \cfr{} measures the model or merely the schema. Three observations say the model. First, schema violation is available and used: under the identical prompt Haiku returns prose in 40 of 40 trials and Opus in 39 of 53, both stating the fields cannot be filled. Declining is reachable, and models differ in whether they take it. Second, rung 2 supplies a legal in-schema abstention requiring no violation at all, and the open models still fabricate at 60--100\%. Third, under enforced decoding the escape is a legal grammar token and is still emitted 0 times out of 200 on the three fields that carry the fabrication, while being emitted 12 times on the one field where it costs nothing. A behaviour that is available, reachable, and used selectively is not compelled. \cfr{} measures how a model resolves a conflict the schema creates, not whether the conflict has a solution.
+
+\begin{table}[t]
+\centering
+\caption{Fabrication rate (\%) at E3 (engagement counts, no reply text). Each cell $n = 40$, except Opus JSON rungs pooling two clean runs ($n = 53$). Wilson 95\% CIs in Appendix~\ref{app:ci}.}
+\label{tab:matrix}
+\begin{tabular}{lrrr}
+\toprule
+model & freetext & json\_esc & json\_req (\cfr{}) \\
+\midrule
+qwen3.5 0.8B & 98 & 100 & 100 \\
+qwen3.5 2B & 100 & 100 & 100 \\
+llama3.2 3B & 100 & 100 & 100 \\
+gemma4 e4B & 65 & 92 & 100 \\
+mistral 7B & 82 & 100 & 100 \\
+qwen2.5 7B & 100 & 100 & 100 \\
+llama3.1 8B & 95 & 100 & 100 \\
+phi-4 14B & 92 & 98 & 100 \\
+gemma4 26B & 88 & 60 & 100 \\
+\midrule
+Haiku 4.5 & 55 & 58 & 0 (refuses 40/40) \\
+Sonnet 4.6 & 98 & 90 & 90 \\
+Opus 4.8 & 0 & 9 & 13 (refuses 39/53) \\
+GPT-5.5 & 2 & 0 & 100 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{v2_fig1_matrix.png}
+\caption{The \pf{} matrix: fabrication at E3 by output-format rung, thirteen models.}
+\label{fig:matrix}
+\end{figure}
+
+\textbf{Required fields are a fabrication ceiling.} Ten of thirteen models reach 100\% \cfr{} (Table~\ref{tab:matrix}, Figure~\ref{fig:matrix}). The exceptions do not comply better; they refuse the format itself.
+
+\textbf{The flip.} GPT-5.5 fabricates once in forty free-text trials, never with the escape-hatch schema, and always under required fields. The knowledge state is constant; only the affordance changed. Fabrication here is a compliance behavior, not a knowledge failure.
+
+\textbf{Escape hatches rescue only the models that barely need them.} Offered \texttt{insufficient\_evidence}, GPT-5.5 takes it every time (\eur{} 100\%) and Opus nearly so (91\%). All nine open-weight models fabricate anyway (\eur{} 0--40\%), as does Sonnet (10\%). The cheap fix works precisely where it is least needed, which is why \eur{} must be reported alongside \cfr{}.
+
+\textbf{The floor holds under enforced decoding.} A prompted schema could be read as cooperation rather than constraint. We rerun the unanswerable rung with grammar-constrained decoding, where prose refusal is not a reachable output. Five open models fabricate at 98--100\% with no escape value in the enums, and at 100\% when \texttt{insufficient\_evidence} is a legal token in the grammar. The field-level pattern is the informative one: across 200 enforced trials the escape is emitted 0 times on \texttt{sentiment}, 0 times on \texttt{main\_themes} and 0 times on \texttt{representative\_reaction}, the three fields whose values constitute the fabrication, and 12 times on \texttt{controversy\_level}, the one field where escaping remains compatible with returning a complete answer. The prompted \cfr{} is therefore a floor rather than an artifact of prompted cooperation, and non-use of the escape is not explained by reachability: it sits in the sampler and the same models emit it selectively within the same object.
+
+\textbf{The schema outranks the instruction.} A system instruction forbidding sentiment inference cuts free-text fabrication from 39\% to 4\%, yet under the required-field schema it changes nothing for four of six models tested ($n = 10$ per model in the instruction arm): GPT-5.5, llama3.1 8B, gemma4 e4B, and gemma4 26B remain at 100\%. It fully rescues phi-4 (100\% to 0\%, all-null JSON) and Opus holds near zero. Prompt-level guardrails and format constraints are typically configured by different teams; the format wins.
+
+\textbf{Resistance is trained, not emergent.} Within the Claude family, Haiku refuses the required schema in 40 of 40 trials with a prose explanation; Sonnet fabricates in 90\% of trials with or without the escape present; Opus refuses 39 of 53. Escape utilization separates them cleanly: 42\%, 10\%, 91\%. Parameter count and recency predict none of this. Coercion resistance is a property a lab trains in or does not, and no current public number reveals which.
+
+\textbf{Domain 2 and the field-level mechanism.} On untranscribed tickets, GPT-5.5 reproduces the flip exactly: 0\%, 0\%, 100\% ($n = 20$ per cell), with the D\_present control at 100\% correct field completion. Field-level scoring localizes the failure: the required enum \texttt{customer\_sentiment} is fabricated in 20 of 20 trials (the model reads ``priority: high'' and reports the customer is ``frustrated''), the free-string \texttt{representative\_quote} in 0 of 20 (the model writes a disclaimer into the string), the array in 3 of 20. Fabrication concentrates exactly where no hedge fits. A schema linter flagging every required closed-vocabulary field without an escape value would have caught every 100\% cell in this paper.
+
+All three Claude models hold 0\% fabrication on tickets. Haiku and Sonnet refuse in prose. Opus returns valid JSON in a schema of its own design, \texttt{\{"status": "insufficient\_data", "reason": ...\}}, a behavior we call \emph{structured refusal} and propose as the training target: the pipeline still halts, but legibly, with a parseable reason rather than a stack trace or a lie. With transcripts present, every model fills every field correctly (20 of 20, all four models): the refusals are evidence-sensitive, not blanket caution.
+
+The comparison across domains yields a sixth finding: coercion resistance is \textbf{domain-contingent}. Sonnet fabricates crowd sentiment in 90\% of social-thread trials and refuses to fabricate a customer's words in 100\% of ticket trials, same model, same rung, same construction. One reading is that safety training treats attributing words to an individual as a harm while treating crowd characterization as aggregate inference. Whatever the mechanism, measured honesty in one schema domain does not transfer to another, so \cfr{} must be reported per domain.
+
+\textbf{The refusal tax.} Honesty has an operational price. Haiku and Opus achieve low \cfr{} by violating the schema (40/40 and 39/53 trials respectively), which a production parser experiences as an outage. Across the matrix, exactly one configuration achieves 0\% fabrication and 0\% format violations: a frontier model with an escape-hatch schema. No existing benchmark places honesty and format compliance in the same trial, so this trade-off has been invisible.
+
+\section{Discussion}
+
+\textbf{Why this happens.} Schema compliance is trained as a hard constraint and, in production, enforced mechanically by constrained decoding \citep{outlines}; abstention is trained as a soft preference \citep{rtuning}. When the two conflict, the hard constraint wins unless alignment explicitly anticipated the conflict. The within-family divergence suggests at least one lab has trained the conflict case in some models and not others, possibly without measuring either.
+
+\textbf{Measurement implications.} Free-text evaluations of abstention and hallucination measure the easy case and overstate deployed safety, because deployment speaks JSON. Evaluation under format pressure requires exactly the ingredients \pf{} packages: a format treatment, unanswerable-by-construction items for deterministic scoring, present-evidence controls for the opposite error, and contamination resistance by regeneration.
+
+\textbf{This is not solved by scale or by recency.} It would be reasonable to expect frontier training to have removed the effect. It has not. Sonnet 4.6, a current frontier model, fabricates in 90\% of required-schema trials and 98\% of free-text trials, exceeding the free-text rate of five of the nine open-weight models tested, among them gemma4 e4B at 65\%. GPT-5.5 is near-perfect at rungs 1 and 2 and fabricates in 40 of 40 at rung 3. Within one family the smallest model declines and the mid-sized model does not. Whatever produces resistance is a property some models have and others do not, it is not predicted by size or release date, and no public number currently reports it.
+
+\textbf{Limitations.} Items are synthetic by necessity, since ground-truth absence requires constructed absence. Frontier models were reached through vendor CLIs that may add unseen system prompts; raw-API replication for the frontier remains open and requires vendor keys. For open models the decoder-enforced replication is done (above) and confirms the prompted numbers as a floor. Two domains; English only; the free-text rung (only) depends on a validated LLM judge.
+
+\section{Conclusion}
+
+A required field is an instruction to answer, whether or not an answer exists. We provide the instrument that makes the resulting fabrication visible, comparable, and trainable against: a causal ladder, deterministic scoring, and two numbers, \cfr{} and \eur{}, that any model card could report. The fix we test is one line of schema. The failure we measure is everywhere.
+
+\bibliographystyle{colm2026_conference}
+\begin{thebibliography}{14}
+
+\bibitem[Kirichenko et~al.(2025)]{abstentionbench}
+Polina Kirichenko et~al.
+\newblock AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions.
+\newblock arXiv:2506.09038, 2025.
+
+\bibitem[Tam et~al.(2024)]{letmespeak}
+Zhi~Rui Tam et~al.
+\newblock Let Me Speak Freely? A Study on the Impact of Format Restrictions on Performance of Large Language Models.
+\newblock arXiv:2408.02442, 2024.
+
+\bibitem[Wen et~al.(2025)]{knowyourlimits}
+Bingbing Wen et~al.
+\newblock Know Your Limits: A Survey of Abstention in Large Language Models.
+\newblock \emph{TACL}, 2025. arXiv:2407.18418.
+
+\bibitem[SOB(2026)]{sob}
+The Structured Output Benchmark (SOB).
+\newblock arXiv:2604.25359, 2026.
+
+\bibitem[LLMStructBench(2026)]{llmstructbench}
+LLMStructBench: Benchmarking Large Language Model Structured Data Extraction.
+\newblock arXiv:2602.14743, 2026.
+
+\bibitem[Willard and Louf(2023)]{outlines}
+Brandon~T. Willard and R{\'e}mi Louf.
+\newblock Efficient Guided Generation for Large Language Models.
+\newblock arXiv:2307.09702, 2023.
+
+\bibitem[Huang et~al.(2023)]{huang2023}
+Lei Huang et~al.
+\newblock A Survey on Hallucination in Large Language Models.
+\newblock arXiv:2311.05232, 2023.
+
+\bibitem[Ji et~al.(2023)]{ji2023}
+Ziwei Ji et~al.
+\newblock Survey of Hallucination in Natural Language Generation.
+\newblock \emph{ACM Computing Surveys}, 2023. arXiv:2202.03629.
+
+\bibitem[Rajpurkar et~al.(2018)]{squad2}
+Pranav Rajpurkar, Robin Jia, and Percy Liang.
+\newblock Know What You Don't Know: Unanswerable Questions for SQuAD.
+\newblock \emph{ACL}, 2018. arXiv:1806.03822.
+
+\bibitem[Lin et~al.(2022)]{truthfulqa}
+Stephanie Lin, Jacob Hilton, and Owain Evans.
+\newblock TruthfulQA: Measuring How Models Mimic Human Falsehoods.
+\newblock \emph{ACL}, 2022. arXiv:2109.07958.
+
+\bibitem[Zhang et~al.(2024)]{rtuning}
+Hanning Zhang et~al.
+\newblock R-Tuning: Instructing Large Language Models to Say `I Don't Know'.
+\newblock \emph{NAACL}, 2024. arXiv:2311.09677.
+
+\bibitem[Rana(2026)]{rana2026}
+Rana Muhammad Usman.
+\newblock Adversarial Feeds Steer LLM Agent Decisions Against Their Defaults.
+\newblock arXiv:2606.00914, 2026.
+
+\end{thebibliography}
+
+\appendix
+
+\section{Wilson 95\% confidence intervals, E3 cells}
+\label{app:ci}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+model & freetext & json\_esc & json\_req \\
+\midrule
+qwen3.5 0.8B & 98 [87, 100] & 100 [91, 100] & 100 [91, 100] \\
+qwen3.5 2B & 100 [91, 100] & 100 [91, 100] & 100 [91, 100] \\
+llama3.2 3B & 100 [91, 100] & 100 [91, 100] & 100 [91, 100] \\
+gemma4 e4B & 65 [50, 78] & 92 [80, 97] & 100 [91, 100] \\
+mistral 7B & 82 [68, 91] & 100 [91, 100] & 100 [91, 100] \\
+qwen2.5 7B & 100 [91, 100] & 100 [91, 100] & 100 [91, 100] \\
+llama3.1 8B & 95 [83, 99] & 100 [91, 100] & 100 [91, 100] \\
+phi-4 14B & 92 [80, 97] & 98 [87, 100] & 100 [91, 100] \\
+gemma4 26B & 88 [74, 95] & 60 [45, 74] & 100 [91, 100] \\
+Haiku 4.5 & 55 [40, 69] & 58 [42, 71] & 0 [0, 9] \\
+Sonnet 4.6 & 98 [87, 100] & 90 [77, 96] & 90 [77, 96] \\
+Opus 4.8 & 0 [0, 7] & 9 [4, 20] & 13 [7, 25] \\
+GPT-5.5 & 2 [0, 13] & 0 [0, 9] & 100 [91, 100] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Additional figures}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{v2_fig2_flip.png}
+\caption{The schema flip across the four frontier models.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.72\linewidth]{v2_fig3_strategies.png}
+\caption{Three responses to an impossible required schema: fabricate, break the schema, or answer honestly within it.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{v2_fig4_eur.png}
+\caption{Escape Utilization Rate by model.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\linewidth]{v2_fig5_fields.png}
+\caption{Field-level fabrication under the required schema (GPT-5.5, Domain 2).}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.72\linewidth]{v2_fig6_instruction.png}
+\caption{An explicit anti-fabrication instruction does not survive a required-field schema for four of six models.}
+\end{figure}
+
+\section{Reproducibility}
+All code, seed templates, the deterministic scorer, judge prompts, and approximately 5{,}000 model outputs will be released under an MIT license upon de-anonymization. Items are generated from seed templates; regenerating the item set defeats contamination.
+
+\end{document}
