@@ -35,7 +35,7 @@ A language model asked a question it cannot answer will frequently decline to an
 
 Deployed language systems frequently do not produce free prose. They produce structured output under a schema: JSON mode, function calling, extraction templates, and tool-call arguments. This raises a question that existing abstention evaluations do not address. When the accurate response is that the input contains no evidence bearing on a field, and the output format provides no value that expresses this, what does the model return?
 
-We address this question with a controlled comparison we call the \emph{Abstention-Affordance Ladder}. The input document and the question are held fixed; only the output format varies, across three levels: free prose, a JSON schema in which every field admits an explicit escape value, and a JSON schema with required fields and no escape value. We add a fourth condition in which the schema is enforced by grammar-constrained decoding.
+We address this question with a controlled comparison we call the \emph{Abstention-Affordance Ladder}. The input document and the question are held fixed; only the output format varies, across three rungs: free prose, a JSON schema in which every field admits an explicit escape value, and a JSON schema with required fields and no escape value. We add a fourth condition in which the schema is enforced by grammar-constrained decoding.
 
 The evaluation items are constructed so that the queried fields are \emph{unanswerable by construction}. A social-media post is presented with engagement counts but no reply text; a support ticket is presented with metadata but with the message body replaced by a notice that the call was not transcribed. Under these conditions, any concrete value returned for the queried fields is unsupported by the input. This property allows the primary metric to be computed by parsing the output and comparing field values against an escape vocabulary, without an intermediate judge model. Each domain also includes a control condition in which the evidence is present, so that excessive abstention is penalized and both error directions are observable.
 
@@ -44,7 +44,7 @@ The effect of the format manipulation is large. On the social-thread domain, GPT
 We report six findings; matrix cells are estimated at $n = 40$ trials unless noted:
 
 \begin{enumerate}
-\item \textbf{Required fields produce near-uniform fabrication.} All nine open-weight models tested (0.8B to 26B parameters, five families) and GPT-5.5 fabricate in 100\% of trials under the required-field level. The three remaining models achieve lower rates by violating the schema rather than by satisfying it honestly.
+\item \textbf{Required fields produce near-uniform fabrication.} All nine open-weight models tested (0.8B to 26B parameters, five families) and GPT-5.5 fabricate in 100\% of trials under the required-field rung. The three remaining models achieve lower rates by violating the schema rather than by satisfying it honestly.
 \item \textbf{An escape value mitigates the effect only for frontier models.} Given a schema in which every field admits \texttt{insufficient\_evidence}, GPT-5.5 selects the escape in every trial and Opus in 91\%. The nine open-weight models fabricate at 60 to 100\% with the escape value present, as does Claude Sonnet at 90\%.
 \item \textbf{A prohibition in the system prompt is not preserved under the schema.} A system instruction forbidding sentiment inference reduces free-text fabrication from 39\% to 4\%. Under the required-field schema, the same instruction produces no reduction for four of six models tested ($n = 10$ per model in this condition). This suggests that prompt-level mitigations may not transfer when a system adopts constrained output.
 \item \textbf{The behavior does not vary monotonically with scale.} Within the Claude family, the smallest model declines the required schema in all trials, the intermediate model fabricates in 90\%, and the largest declines in the majority. Parameter count and release recency do not order these three models, which is consistent with the behavior being determined by training choices rather than capability.
@@ -98,6 +98,53 @@ Items are generated from seed templates. The generator ships with the benchmark;
 
 Rung-1 prose is scored by an LLM judge with a tight fabrication-only rubric. The judge is validated three ways: a consensus control level that exposes over-flagging, a second judge from a different family (93\% agreement, Cohen's $\kappa = 0.61$), and a frontier gold judge (93\% agreement) \citep{llmjudge}.
 
+\subsection{What \pf{} Comprises}
+
+To state the artifact precisely, \pf{} is the combination of five components:
+(i) seed-template generators for two domains, which regenerate the item set on
+demand and thereby resist contamination; (ii) the four-rung format protocol of
+Section~3.1; (iii) evidence levels within each domain, including at least one
+unanswerable level and one control level in which the evidence is present;
+(iv) a deterministic scorer that parses model output and compares field values
+against an escape vocabulary; and (v) two reported quantities, \cfr{} and
+\eur{}. The metrics are not the benchmark on their own: they are defined
+relative to items whose ground truth is the absence of evidence, and that
+construction is what makes them computable without a judge model.
+
+\subsection{Is Fabrication Forced by the Schema?}
+\label{sec:forced}
+
+A required field admits no legal value expressing absent evidence, so it is
+reasonable to ask whether the required-field rung measures anything beyond the
+schema's own arithmetic. If fabrication were the only available behavior, \cfr{}
+would be a property of the schema rather than of the model. Three observations
+in our data indicate that it is not.
+
+First, schema violation is available and is used. Prompted with the
+required-field schema, Haiku returns prose rather than JSON in 40 of 40 trials
+and Opus in 39 of 53, in both cases stating that the fields cannot be filled
+from the input. Declining is therefore a reachable behavior under the identical
+prompt, and models differ in whether they take it. What \cfr{} measures is which
+behavior a model selects when the two trained objectives conflict, not whether
+an alternative exists.
+
+Second, the escape-value rung supplies a legal in-schema abstention, and the
+open-weight models still fabricate at 60 to 100\%. Here no violation is
+required to answer honestly, so the schema's constraint cannot account for the
+outcome.
+
+Third, and most directly, the enforced-decoding condition of Section~4.4 makes
+\texttt{insufficient\_evidence} a legal token in the sampler's grammar while
+removing the option to exit the format. Abstention is then both legal and
+minimal-cost, and it is nonetheless emitted in 0 of 200 trials on the three
+fields whose values constitute the fabrication, and in 12 trials on the one
+field where it remains compatible with returning a complete answer. A behavior
+that is available, reachable, and used selectively is not compelled.
+
+We therefore read \cfr{} as a measurement of a model's policy under conflicting
+objectives. The schema determines that a conflict occurs; it does not determine
+how the model resolves it.
+
 \subsection{Models}
 
 Nine open-weight models across five families (qwen3.5 0.8B and 2B, llama3.2 3B, llama3.1 8B, gemma4 e4B and 26B, mistral 7B, qwen2.5 7B, phi-4 14B), run locally. Four frontier models through their vendor CLIs: GPT-5.5 (Codex CLI 0.124.0, reasoning effort high) and Claude Haiku 4.5, Sonnet 4.6, and Opus 4.8 (Claude Code CLI).
@@ -139,11 +186,11 @@ GPT-5.5 & 2 & 0 & 100 \\
 \label{fig:matrix}
 \end{figure}
 
-Table~\ref{tab:matrix} and Figure~\ref{fig:matrix} report the full matrix. Ten of thirteen models fabricate in 100\% of trials under the required-field level. The three exceptions do not achieve lower rates by filling the schema more accurately; they violate the output format instead, which we quantify separately in Section~\ref{sec:tax}.
+Table~\ref{tab:matrix} and Figure~\ref{fig:matrix} report the full matrix. Ten of thirteen models fabricate in 100\% of trials under the required-field rung. The three exceptions do not achieve lower rates by filling the schema more accurately; they violate the output format instead, which we quantify separately in Section~\ref{sec:tax}.
 
 \subsection{The Flip}
 
-GPT-5.5 provides the clearest case, since its free-text rate is near zero (Figure~\ref{fig:flip}). It fabricates in 1 of 40 free-text trials, 0 of 40 with the escape-hatch schema, and 40 of 40 with required fields. Since the input, the question, and the model are identical across the three conditions, the variation cannot be attributed to what the model represents about the input. We interpret it as a conflict between two trained behaviors, in which schema compliance is satisfied at the cost of abstention.
+GPT-5.5 provides the clearest case, since its free-text rate is near zero (Figure~\ref{fig:flip}). It fabricates in 1 of 40 free-text trials, 0 of 40 with the escape-value schema, and 40 of 40 with required fields. Since the input, the question, and the model are identical across the three conditions, the variation cannot be attributed to what the model represents about the input. We interpret it as a conflict between two trained behaviors, in which schema compliance is satisfied at the cost of abstention.
 
 \begin{figure}[t]
 \centering
@@ -201,7 +248,7 @@ We prepend a system instruction that forbids inferring sentiment and demands an 
 
 \subsection{Resistance Is Trained, Not Emergent}
 
-The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly, and fabricates in none. Sonnet, larger and newer, fills them, fabricating in 90\% of trials, with or without the escape hatch present. Opus refuses 39 of 53 and fabricates in 13\%. Escape utilization separates them cleanly: Sonnet 10\%, Haiku 42\%, Opus 91\%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98\% before any schema appears, Haiku at 55\%, Opus at 0\%. The ordering of these three models is not predicted by parameter count or by release recency. We therefore treat resistance to format coercion as a property determined during training rather than one that emerges with capability, and we propose \cfr{} and \eur{} as quantities that would make it visible.
+The Claude family spans an order of magnitude in capability. Haiku, the smallest, refuses the required schema in 40 of 40 trials, writing a prose explanation of why the fields cannot be filled honestly, and fabricates in none. Sonnet, larger and newer, fills them, fabricating in 90\% of trials, with or without the escape value present. Opus refuses 39 of 53 and fabricates in 13\%. Escape utilization separates them cleanly: Sonnet 10\%, Haiku 42\%, Opus 91\%, three adjacent models with three different coercion policies. The free-text rung says the same thing in a different voice: Sonnet fabricates at 98\% before any schema appears, Haiku at 55\%, Opus at 0\%. The ordering of these three models is not predicted by parameter count or by release recency. We therefore treat resistance to format coercion as a property determined during training rather than one that emerges with capability, and we propose \cfr{} and \eur{} as quantities that would make it visible.
 
 \subsection{Domain 2: The Customer Who Never Spoke}
 
@@ -225,7 +272,7 @@ The control rules out blanket caution. With the transcript present, every model 
 \subsection{The Refusal Tax}
 \label{sec:tax}
 
-Abstention under a required schema carries an operational cost. Haiku and Opus achieve low \cfr{} by violating the output format, returning prose where JSON was specified, in 40 of 40 and 39 of 53 trials respectively. A downstream parser cannot distinguish this from a malformed response. Across the full matrix, exactly one configuration achieves 0\% fabrication with 0\% format violations: a frontier model with an escape-hatch schema. Every other configuration incurs a cost in either unsupported values or format violations. We are not aware of an existing benchmark that measures abstention and format compliance within the same trial, which is what makes this trade-off observable here. Figure~\ref{fig:strategies} shows the full three-way decomposition: fabricate, break the schema, or answer honestly within it.
+Abstention under a required schema carries an operational cost. Haiku and Opus achieve low \cfr{} by violating the output format, returning prose where JSON was specified, in 40 of 40 and 39 of 53 trials respectively. A downstream parser cannot distinguish this from a malformed response. Across the full matrix, exactly one configuration achieves 0\% fabrication with 0\% format violations: a frontier model with an escape-value schema. Every other configuration incurs a cost in either unsupported values or format violations. We are not aware of an existing benchmark that measures abstention and format compliance within the same trial, which is what makes this trade-off observable here. Figure~\ref{fig:strategies} shows the full three-way decomposition: fabricate, break the schema, or answer honestly within it.
 
 \begin{figure}[t]
 \centering
@@ -242,7 +289,7 @@ Abstention under a required schema carries an operational cost. Haiku and Opus a
 
 \paragraph{Implications for reporting.} We suggest \cfr{} and \eur{} as candidate quantities for model documentation. Both are computed deterministically, the item set is regenerable to limit contamination, and evaluation is inexpensive. Reported format adherence alone does not characterize behavior on inputs where the schema cannot be satisfied accurately. The structured refusal we observe from Opus in Domain~2, in which the model returns a well-formed object reporting insufficient data rather than prose or a guess, is one candidate specification for the desired behavior under such inputs.
 
-\paragraph{Limitations.} The items are synthetic. Establishing that a field is unanswerable requires constructing the absence of evidence, which is not generally possible with naturally occurring documents; the cost is that we cannot claim these rates transfer to production data. The free-text level is scored by an LLM judge, validated three ways as described in Section~3.3, though the \cfr{} and \eur{} figures do not depend on it. Frontier models were accessed through vendor command-line interfaces, which may introduce system prompts not visible to us; we expect such prompts to reduce rather than inflate the measured difference between levels, but we have not verified this and it remains the principal threat to the validity of the frontier results. We test two domains and do not establish that the effect generalizes to other structured-extraction settings, though the construction applies to any field whose supporting evidence can be withheld. All items are in English.
+\paragraph{Limitations.} The items are synthetic. Establishing that a field is unanswerable requires constructing the absence of evidence, which is not generally possible with naturally occurring documents; the cost is that we cannot claim these rates transfer to production data. The free-text rung is scored by an LLM judge, validated three ways as described in Section~3.3, though the \cfr{} and \eur{} figures do not depend on it. Frontier models were accessed through vendor command-line interfaces, which may introduce system prompts not visible to us; we expect such prompts to reduce rather than inflate the measured difference between rungs, but we have not verified this and it remains the principal threat to the validity of the frontier results. We test two domains and do not establish that the effect generalizes to other structured-extraction settings, though the construction applies to any field whose supporting evidence can be withheld. All items are in English.
 
 \section{Release}
 
