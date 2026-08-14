@@ -1,0 +1,820 @@
+{
+  "apis_failed": 0,
+  "apis_fetched": 250,
+  "corpus": "APIs.guru OpenAPI directory",
+  "findings_by_rule": {
+    "required-array-min-items": 7,
+    "required-boolean-no-escape": 444,
+    "required-enum-no-escape": 330
+  },
+  "pct_coercive": 20.4,
+  "per_api": [
+    {
+      "api": "github.com:ghes-3.0",
+      "coercive": 78,
+      "pct": 37.9,
+      "schemas_with_required": 206
+    },
+    {
+      "api": "github.com:ghes-2.20",
+      "coercive": 67,
+      "pct": 37.4,
+      "schemas_with_required": 179
+    },
+    {
+      "api": "rebilly.com",
+      "coercive": 102,
+      "pct": 69.9,
+      "schemas_with_required": 146
+    },
+    {
+      "api": "amazonaws.com:waf-regional",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 117
+    },
+    {
+      "api": "telnyx.com",
+      "coercive": 21,
+      "pct": 17.9,
+      "schemas_with_required": 117
+    },
+    {
+      "api": "amazonaws.com:kinesisanalyticsv2",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 115
+    },
+    {
+      "api": "amazonaws.com:gamelift",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 97
+    },
+    {
+      "api": "bbc.co.uk",
+      "coercive": 18,
+      "pct": 20.0,
+      "schemas_with_required": 90
+    },
+    {
+      "api": "amazonaws.com:ecs",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 74
+    },
+    {
+      "api": "youneedabudget.com",
+      "coercive": 11,
+      "pct": 22.9,
+      "schemas_with_required": 48
+    },
+    {
+      "api": "azure.com:cosmos-db",
+      "coercive": 2,
+      "pct": 4.4,
+      "schemas_with_required": 45
+    },
+    {
+      "api": "truora.com",
+      "coercive": 13,
+      "pct": 30.2,
+      "schemas_with_required": 43
+    },
+    {
+      "api": "climate.com",
+      "coercive": 10,
+      "pct": 25.0,
+      "schemas_with_required": 40
+    },
+    {
+      "api": "azure.com:customer-insights",
+      "coercive": 7,
+      "pct": 18.9,
+      "schemas_with_required": 37
+    },
+    {
+      "api": "illumidesk.com",
+      "coercive": 9,
+      "pct": 24.3,
+      "schemas_with_required": 37
+    },
+    {
+      "api": "openbanking.org.uk:payment-initiation-openapi",
+      "coercive": 26,
+      "pct": 74.3,
+      "schemas_with_required": 35
+    },
+    {
+      "api": "amazonaws.com:codestar",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 33
+    },
+    {
+      "api": "amazonaws.com:cloudhsm",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 23
+    },
+    {
+      "api": "adyen.com:BalancePlatformConfigurationNotification-v1",
+      "coercive": 9,
+      "pct": 39.1,
+      "schemas_with_required": 23
+    },
+    {
+      "api": "vtex.local:Marketplace-Protocol",
+      "coercive": 8,
+      "pct": 36.4,
+      "schemas_with_required": 22
+    },
+    {
+      "api": "va.gov:facilities",
+      "coercive": 9,
+      "pct": 45.0,
+      "schemas_with_required": 20
+    },
+    {
+      "api": "azure.com:containerservice-managedClusters",
+      "coercive": 2,
+      "pct": 10.5,
+      "schemas_with_required": 19
+    },
+    {
+      "api": "rawg.io",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 19
+    },
+    {
+      "api": "amazonaws.com:AWSMigrationHub",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 18
+    },
+    {
+      "api": "amazonaws.com:qldb",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 18
+    },
+    {
+      "api": "api.video",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 17
+    },
+    {
+      "api": "azure.com:datalake-store-account",
+      "coercive": 3,
+      "pct": 17.6,
+      "schemas_with_required": 17
+    },
+    {
+      "api": "microsoft.com:cognitiveservices-ImageSearch",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 15
+    },
+    {
+      "api": "amazonaws.com:sdb",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 15
+    },
+    {
+      "api": "amazonaws.com:redshift-data",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 15
+    },
+    {
+      "api": "vtex.local:GiftCard-Hub-API",
+      "coercive": 3,
+      "pct": 20.0,
+      "schemas_with_required": 15
+    },
+    {
+      "api": "vtex.local:Subscriptions-API-(v3)",
+      "coercive": 3,
+      "pct": 20.0,
+      "schemas_with_required": 15
+    },
+    {
+      "api": "daniweb.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 14
+    },
+    {
+      "api": "azure.com:containerservice-containerService",
+      "coercive": 2,
+      "pct": 14.3,
+      "schemas_with_required": 14
+    },
+    {
+      "api": "setlist.fm",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 12
+    },
+    {
+      "api": "azure.com:machinelearningservices-machineLearningServices",
+      "coercive": 1,
+      "pct": 9.1,
+      "schemas_with_required": 11
+    },
+    {
+      "api": "adyen.com:RecurringService",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 11
+    },
+    {
+      "api": "azure.com:databricks",
+      "coercive": 1,
+      "pct": 9.1,
+      "schemas_with_required": 11
+    },
+    {
+      "api": "amazonaws.com:workdocs",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 10
+    },
+    {
+      "api": "apideck.com:webhook",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 10
+    },
+    {
+      "api": "azure.com:recoveryservicesbackup-backupManagement",
+      "coercive": 1,
+      "pct": 10.0,
+      "schemas_with_required": 10
+    },
+    {
+      "api": "azure.com:cognitiveservices-QnAMaker",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 8
+    },
+    {
+      "api": "azure.com:alertsmanagement-AlertsManagement",
+      "coercive": 3,
+      "pct": 37.5,
+      "schemas_with_required": 8
+    },
+    {
+      "api": "amazonaws.com:connect-contact-lens",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 8
+    },
+    {
+      "api": "amazonaws.com:iotsecuretunneling",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 8
+    },
+    {
+      "api": "npr.org:authorization",
+      "coercive": 2,
+      "pct": 28.6,
+      "schemas_with_required": 7
+    },
+    {
+      "api": "vtex.local:Checkout-API",
+      "coercive": 1,
+      "pct": 14.3,
+      "schemas_with_required": 7
+    },
+    {
+      "api": "microsoft.com:cognitiveservices-NewsSearch",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "symanto.net",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "ote-godaddy.com:shoppers",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "codat.io:banking",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "wikimedia.org",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "azure.com:mediaservices-StreamingPoliciesAndStreamingLocators",
+      "coercive": 3,
+      "pct": 50.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "azure.com:machinelearningexperimentation-machineLearningExperimentation",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "amazonaws.com:savingsplans",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "bluemix.net:containers",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 6
+    },
+    {
+      "api": "microsoft.com:cognitiveservices-CustomImageSearch",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "logoraisr.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "azure.com:notificationhubs",
+      "coercive": 1,
+      "pct": 20.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "xero.com:xero_assets",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "azure.com:provisioningservices-iotdps",
+      "coercive": 1,
+      "pct": 20.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "xtrf.eu",
+      "coercive": 1,
+      "pct": 20.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "hubapi.com:events",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "azure.com:monitor-logProfiles_API",
+      "coercive": 1,
+      "pct": 20.0,
+      "schemas_with_required": 5
+    },
+    {
+      "api": "amadeus.com:amadeus-airport-&-city-search",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "amadeus.com:amadeus-branded-fares-upsell",
+      "coercive": 2,
+      "pct": 50.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "cloud-elements.com:ecwid",
+      "coercive": 2,
+      "pct": 50.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "bandsintown.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "dev.to",
+      "coercive": 1,
+      "pct": 25.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "apisetu.gov.in:transportsk",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "apisetu.gov.in:transportts",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "apisetu.gov.in:transportmh",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "opto22.com:pac",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "apisetu.gov.in:transportas",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "amadeus.com:amadeus-safe-place-",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "microsoft.com:cognitiveservices-Ocr",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "apisetu.gov.in:transportpy",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 4
+    },
+    {
+      "api": "azure.com:customproviders",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "vtex.local:Policies-System-API",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "linuxfoundation.org:reimbursement",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "azure.com:web-TopLevelDomains",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "whapi.com:accounts",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "docker.com:dvp",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "runscope.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "faretrotter.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "microsoft.com:cognitiveservices-Prediction",
+      "coercive": 1,
+      "pct": 33.3,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "mercedes-benz.com:image",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "azure.com:network-networkWatcherConnectionMonitorV1",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "gettyimages.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "amazonaws.com:sagemaker-edge",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "apisetu.gov.in:edistrictkerala",
+      "coercive": 1,
+      "pct": 33.3,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "apisetu.gov.in:jharsewa",
+      "coercive": 1,
+      "pct": 33.3,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "azure.com:sql-managedDatabases",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "azure.com:mediaservices-AccountFilters",
+      "coercive": 1,
+      "pct": 33.3,
+      "schemas_with_required": 3
+    },
+    {
+      "api": "azure.com:eventhub-EventHub-preview",
+      "coercive": 2,
+      "pct": 100.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:keyvault-secrets",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "amazonaws.com:kinesis-video-signaling",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:sql-recommendedElasticPools",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:azuredata",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "browshot.com",
+      "coercive": 1,
+      "pct": 50.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:asrb",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:applicationinsights-QueryPackQueries_API",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:hppanchayat",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:uiic",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:jac",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:juit",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:labourbih",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:aharakar",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:network-routeFilter",
+      "coercive": 1,
+      "pct": 50.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "payments.service.gov.uk:payments",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:pramericalife",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:automation-credential",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:hsscboardmh",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:automation-schedule",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:phedharyana",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:jnrmand",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:automation-sourceControlSyncJob",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "apisetu.gov.in:landrecordskar",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 2
+    },
+    {
+      "api": "azure.com:sql-WorkloadClassifiers",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:trafficmanager-trafficmanageranalytics",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "carbondoomsday.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:security-securityContacts",
+      "coercive": 1,
+      "pct": 100.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "openapi.space",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "personio.de:authentication",
+      "coercive": 1,
+      "pct": 100.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:sql-PrivateEndpointConnections",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:sql-ManagedInstanceTdeCertificates",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:sql-elasticPools",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:mysql-PrivateEndpointConnections",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:apimanagement-apimversionsets",
+      "coercive": 1,
+      "pct": 100.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "amadeus.com:amadeus-location-score",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "amazonaws.com:iot-jobs-data",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "freetv-app.com",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "amazonaws.com:cloudsearchdomain",
+      "coercive": 0,
+      "pct": 0.0,
+      "schemas_with_required": 1
+    },
+    {
+      "api": "azure.com:sql-ServerAzureADAdministrators",
+      "coercive": 1,
+      "pct": 100.0,
+      "schemas_with_required": 1
+    }
+  ],
+  "schemas_coercive": 436,
+  "schemas_total": 9634,
+  "schemas_with_required_fields": 2140
+}

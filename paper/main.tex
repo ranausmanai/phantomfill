@@ -13,7 +13,9 @@
 \newcommand{\eur}{EUR}
 
 \title{\textbf{\pf{}: When the Form Demands an Answer,\\Language Models Invent One}}
-\author{Rana Muhammad Usman\\\small Independent Researcher\\\small \texttt{usmanashrafrana@gmail.com}}
+\author{Rana Muhammad Usman\\\small Independent Researcher\\\small \texttt{ranausman@outlook.com}
+\and
+Dominic Williamson\\\small Codarossa\\\small \texttt{dominic@codarossa.ai}}
 \date{}
 
 \begin{document}
@@ -26,7 +28,7 @@ We report a controlled comparison in which the input document and the question a
 
 Across thirteen models, the format change produces a large effect. GPT-5.5 reports that the evidence is missing in 98\% of free-text trials on the social-thread domain and returns a fabricated value in 40 of 40 trials under a required-field schema on the same inputs; ten of thirteen models fabricate in 100\% of trials under that schema. Supplying an explicit \texttt{insufficient\_evidence} value mitigates the effect for two frontier models and not for the nine open-weight models tested, which fabricate at 60--100\% with the escape value present. Under grammar-constrained decoding, where the escape token is guaranteed reachable by the sampler, five open-weight models emit it in 0 of 200 trials on the three fields whose values constitute the fabrication and in 12 trials on the one field where doing so is compatible with a complete answer. A system instruction forbidding the inference is not preserved under the schema for four of six models tested. Within one model family, the smallest and largest models decline the impossible schema while the intermediate model fabricates in 90\% of trials, indicating that the behavior does not vary monotonically with scale.
 
-Fabrication concentrates in fields that cannot carry a qualifier: required closed-vocabulary enumerations and minimum-count arrays, rather than free-text strings. We release \pf{}, a regenerable benchmark with two reported quantities, the Coerced Fabrication Rate and the Escape Utilization Rate. Scope: two synthetic English-language domains; frontier models were accessed through vendor command-line interfaces rather than APIs.
+Fabrication concentrates in fields that cannot carry a qualifier: required closed-vocabulary enumerations and minimum-count arrays, rather than free-text strings. We release \pf{}, a regenerable benchmark with two reported quantities, the Coerced Fabrication Rate and the Escape Utilization Rate. A survey of 250 public OpenAPI specifications finds that 20.4\% of schemas declaring required fields already contain at least one field in which absent evidence cannot be reported, indicating that the manipulated structure is common in practice. Scope: two synthetic English-language domains; frontier models were accessed through vendor command-line interfaces rather than APIs.
 \end{abstract}
 
 \section{Introduction}
@@ -280,6 +282,44 @@ Abstention under a required schema carries an operational cost. Haiku and Opus a
 \caption{Three responses to an impossible required schema. Only Opus shows a meaningful honest-within-schema share, via structured refusal.}
 \label{fig:strategies}
 \end{figure}
+
+\subsection{Prevalence of the Pattern in Published Schemas}
+
+Our items are synthetic, and Section~6 states why: establishing that a field is
+unanswerable requires constructing the absence of evidence. That limitation
+applies to the items. It does not establish whether the schema pattern they
+exercise is rare or common in practice, which is a separate and checkable
+question.
+
+We therefore surveyed published schemas. We sampled 250 APIs at random from the
+APIs.guru directory of OpenAPI descriptions of live services, extracted their
+named object schemas, and applied the released linter. Object schemas of this
+kind are what tool-calling layers convert into function definitions, so their
+required-field structure is inherited directly by the model's output format. We
+count a schema as coercive when it has at least one required field that cannot
+express missing evidence: a closed-vocabulary enum or a boolean with no null
+option.
+
+Of 9{,}634 object schemas, 2{,}140 declare required fields. \textbf{436 of those,
+20.4\%, are coercive}, and 45 of the 134 APIs that declare required fields
+contain at least one. The findings are dominated by required booleans (444) and
+required enums (330), with minimum-count arrays rare (7). This matches the
+field-level result of Section~4.7: the risk concentrates in closed vocabularies,
+and a boolean is a two-value closed vocabulary.
+
+The distribution is uneven and its upper end is notable. Among APIs with at
+least fifteen such schemas, the highest coercive shares are an open-banking
+payment-initiation specification at 74\%, a billing platform at 70\%, a
+government facilities service at 45\%, a payments notification API at 39\%, and
+GitHub Enterprise at 38\%. These are settings where a fabricated required value
+is consumed by software rather than read by a person.
+
+We claim only what this measures. It is a property of published schemas, not a
+measurement of deployed agents, and no model was run. It does establish that the
+structure we manipulate experimentally is not an artifact of our item
+construction: one in five real schemas that declare required fields already
+contains at least one field in which a model has no legal way to report that the
+evidence is absent.
 
 \section{Discussion}
 
