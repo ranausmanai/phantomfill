@@ -13,12 +13,15 @@
 
 \title{PhantomFill: When the Form Demands an Answer,\\Language Models Invent One}
 
-% COLM policy freezes the author list at submission: authorship was used to
-% compute reviewing conflicts of interest, so no author may be added or removed
-% for the camera-ready. Confirmed by the AIMS organizers, 5 Aug 2026.
+% Co-author inclusion approved by the AIMS organizers / COLM chair for the
+% camera-ready revision.
 \author{Rana Muhammad Usman \\
 Independent Researcher \\
-\texttt{ranausman@outlook.com}}
+\texttt{ranausman@outlook.com}
+\And
+Dominic Williamson \\
+Codarossa \\
+\texttt{dominic@codarossa.ai}}
 
 \newcommand{\pf}{PhantomFill}
 \newcommand{\cfr}{CFR}
@@ -156,6 +159,23 @@ All three Claude models hold 0\% fabrication on tickets. Haiku and Sonnet refuse
 The comparison across domains yields a sixth finding: coercion resistance is \textbf{domain-contingent}. Sonnet fabricates crowd sentiment in 90\% of social-thread trials and refuses to fabricate a customer's words in 100\% of ticket trials, same model, same rung, same construction. One reading is that safety training treats attributing words to an individual as a harm while treating crowd characterization as aggregate inference. Whatever the mechanism, measured honesty in one schema domain does not transfer to another, so \cfr{} must be reported per domain.
 
 \textbf{The refusal tax.} Honesty has an operational price. Haiku and Opus achieve low \cfr{} by violating the schema (40/40 and 39/53 trials respectively), which a production parser experiences as an outage. Across the matrix, exactly one configuration achieves 0\% fabrication and 0\% format violations: a frontier model with an escape-hatch schema. No existing benchmark places honesty and format compliance in the same trial, so this trade-off has been invisible.
+
+\textbf{How common is the pattern in published schemas?} Our items are synthetic,
+because establishing that a field is unanswerable requires constructing the absence of
+evidence. That limits the items, not the schema pattern they exercise, which is separately
+checkable. We sampled 250 APIs at random from the APIs.guru directory of OpenAPI
+descriptions of live services and applied the released linter to their named object schemas;
+schemas of this kind are what tool-calling layers convert into function definitions, so their
+required-field structure is inherited by the model's output format. Of 9{,}634 object schemas,
+2{,}140 declare required fields, and \textbf{436 of those (20.4\%) contain at least one required
+field that cannot express missing evidence}; 45 of the 134 APIs with such schemas contain at
+least one. Findings are dominated by required booleans (444) and required enums (330), with
+minimum-count arrays rare (7) --- consistent with the field-level result above, since a boolean
+is a two-value closed vocabulary. The upper tail is concentrated in high-stakes services: an
+open-banking payment-initiation specification at 74\%, a billing platform at 70\%, a government
+facilities API at 45\%, and GitHub Enterprise at 38\%. No model was run for this survey; it
+measures published schemas rather than deployed agents. It does establish that the structure
+we manipulate experimentally is not an artifact of our item construction.
 
 \section{Discussion}
 
