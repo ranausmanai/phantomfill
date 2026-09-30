@@ -30,9 +30,9 @@ Codarossa \\
 \begin{document}
 
 \maketitle
-% [final] de-anonymizes, but its header claims main-conference acceptance.
-% This is a workshop paper; \@maketitle sets \lhead, so override after it.
-\lhead{Accepted at the AI Measurement Science (AIMS) workshop, COLM 2026}
+% Header wording specified by the AIMS organizers for the camera-ready.
+% \@maketitle sets \lhead, so this override must follow \maketitle.
+\lhead{Published at the AI Measurement Science Workshop at COLM 2026.}
 
 \begin{center}
 \begin{minipage}{0.8\linewidth}
@@ -315,6 +315,13 @@ GPT-5.5 & 2 [0, 13] & 0 [0, 9] & 100 [91, 100] \\
 \end{figure}
 
 \section{Reproducibility}
-All code, seed templates, the deterministic scorer, judge prompts, and approximately 5{,}000 model outputs will be released under an MIT license upon de-anonymization. Items are generated from seed templates; regenerating the item set defeats contamination.
+All code, seed templates, the deterministic scorer, judge prompts, and approximately
+5{,}000 raw model outputs are released under an MIT license at
+\url{https://github.com/ranausmanai/phantomfill}. The schema linter used in
+Section~5 is installable as \texttt{pip install phantomfill-lint}
+(\url{https://pypi.org/project/phantomfill-lint/}), and the prevalence survey is
+reproducible with \texttt{python3 survey\_schemas.py}. An extended preprint is available at
+\url{https://arxiv.org/abs/2607.20492}. Items are generated from seed templates; regenerating
+the item set defeats contamination.
 
 \end{document}
